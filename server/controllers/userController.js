@@ -488,7 +488,7 @@ exports.showTables = async (req, res) => {
 
 exports.tableOnly = async (req, res) => {
     try {
-        const schema = resolveSchema(req);
+        const schema = req.params.db || "public";
         const table = "MLBPlayers";
         const cols = "*";
 
@@ -496,7 +496,7 @@ exports.tableOnly = async (req, res) => {
         const result = await basicQuery(sql);
 
         res.render("partials/table", {
-            layout: false,   // <-- critical
+            layout: false,
             cols: result.fields.map(f => f.name),
             rows: result.rows
         });
