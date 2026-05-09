@@ -49,7 +49,8 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const dbname = "Neon"; 
+        const schema = req.params?.db || "public";
+        const dbname = schema;
         const table = "MLBPlayers";
         const cols = "*";
 
