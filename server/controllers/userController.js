@@ -384,7 +384,7 @@ exports.queryTable = async (req, res) => {
 exports.selectTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const schema = req.params?.db || "public";
+        const schema = resolveSchema(req);
         const dbname = schema;
 
         console.log("selectTable Params:", JSON.stringify(req.params));
