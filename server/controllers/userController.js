@@ -228,12 +228,8 @@ exports.queryAPI = async (req, res) => {
         let queryWhere = "";
 
         if (whereTerm.trim() !== "") {
-            whereTerm = whereTerm
-                .replace(/'/g, "")
-                .replace(/%27/g, "")
-                .replace(/%20/g, " ")
-                .replace(/%22/g, '"');
-
+            // DO NOT strip quotes — Postgres needs them
+            // DO NOT decode URL encoding — Express already did
             queryWhere = " WHERE " + whereTerm;
         }
 
