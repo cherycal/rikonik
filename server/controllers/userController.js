@@ -49,9 +49,7 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const { resolveSchema } = require("../../utils/schema");
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
         const table = "MLBPlayers";
         const cols = "*";
@@ -113,9 +111,7 @@ exports.default = async (req, res) => {
 exports.dbselect = async (req, res) => {
     try {
         // The schema the user wants to switch to
-        const { resolveSchema } = require("../../utils/schema");
-        const schema = resolveSchema(req);
-
+        const schema = req.params.db || "public";
         const dbname = schema;  // for UI display
 
         console.log("dbselect Params:", JSON.stringify(req.params));
@@ -181,7 +177,7 @@ exports.multi = async (req, res) => {
     try {
         // Schema selection (default = public)
         const schema = req.params?.db || "public";
-        const dbname = schema;
+
         // First query: list tables in this schema
         const tablePromise = getTables(schema);
 
