@@ -181,7 +181,7 @@ exports.multi = async (req, res) => {
     try {
         // Schema selection (default = public)
         const { resolveSchema } = require("../utils/schema");
-        const schema = resolveSchema(req);
+        const schema = req.params?.db || resolveSchema(req);
 
         // First query: list tables in this schema
         const tablePromise = getTables(schema);
