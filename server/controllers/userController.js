@@ -93,17 +93,8 @@ exports.default = async (req, res) => {
         const rows = queryResult.rows;
         const message = sql;
 
-        res.render("index", {
-            tableList,
-            rows,
-            message,
-            table,
-            cols,
-            whereTerm,
-            orderTerm,
-            ascFlag,
-            dbname
-        });
+        res.send("OK");
+
 
     } catch (error) {
         console.error("Error in exports.default:", error);
