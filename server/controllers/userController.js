@@ -49,6 +49,7 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
+        const dbname = "Neon"; 
         const table = "ESPNRosters";
         const cols = "*";
 
