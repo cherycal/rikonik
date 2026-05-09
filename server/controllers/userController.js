@@ -488,12 +488,17 @@ exports.showTables = async (req, res) => {
 
 exports.tableOnly = async (req, res) => {
     try {
-        const schema = resolveSchema(req);
-        const dbname = schema;
+        console.log("🔥 tableOnly route HIT");
+
+        const schema = req.params.db || "public";
         const table = "MLBPlayers";
         const cols = "*";
 
         const sql = `SELECT ${cols} FROM ${schema}.${table}`;
+
+        console.log("schema =", schema);
+        console.log("sql =", sql);
+
         const result = await basicQuery(sql);
 
         res.render("partials/table", {
@@ -501,8 +506,6 @@ exports.tableOnly = async (req, res) => {
             cols: result.fields.map(f => f.name),
             rows: result.rows
         });
-        console.log("🔥 tableOnly route HIT");
-
 
     } catch (err) {
         console.error("Error in tableOnly:", err);
