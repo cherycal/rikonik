@@ -50,56 +50,7 @@ function closeDB(db) {
 }
 
 exports.default = async (req, res) => {
-    try {
-        const schema = resolveSchema(req);
-        const dbname = schema;
-
-        const table = "MLBPlayers";
-        const cols = "*";
-
-        // WHERE clause
-        let whereTerm = req.query.where || "";
-        let queryWhere = "";
-
-        if (whereTerm.trim() !== "") {
-            console.log("req.query.where:", whereTerm);
-            whereTerm = whereTerm.replace(/'/g, "");
-            queryWhere = " WHERE " + whereTerm;
-        }
-
-        // ORDER BY clause
-        let asc = req.query.asc || "";
-        let orderTerm = req.body.order_term || req.query.orderBy || "";
-
-        if (orderTerm.trim() !== "") {
-            orderTerm = orderTerm.replace(/'/g, "");
-            orderTerm = " ORDER BY " + orderTerm + " " + asc;
-        }
-
-        // Flip asc/desc for UI column header clicks
-        let ascFlag = asc === "asc" ? "desc" : "asc";
-
-        // Final SQL
-        const sql = `SELECT ${cols} FROM ${table}${queryWhere}${orderTerm}`;
-        console.log("SQL:", sql);
-
-        // Run both queries in parallel
-        const [tablesResult, queryResult] = await Promise.all([
-            getTables(),
-            basicQuery(sql)
-        ]);
-
-        const tableList = tablesResult.rows;
-        const rows = queryResult.rows;
-        const message = sql;
-
-        res.send("OK");
-
-
-    } catch (error) {
-        console.error("Error in exports.default:", error);
-        res.status(500).send("Server error");
-    }
+    res.send("OK");
 };
 
 exports.dbselect = async (req, res) => {
