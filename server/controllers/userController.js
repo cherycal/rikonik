@@ -2,6 +2,8 @@ const { basicQuery } = require('../db');
 //
 let moment = require('moment');
 let dbname = "public"
+const { resolveSchema } = require("../../utils/schema");
+
 
 async function getTables(schema = "public") {
     const sql = `
@@ -49,8 +51,9 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const schema = req.params?.db || "public";
+        const schema = resolveSchema(req);
         const dbname = schema;
+
         const table = "MLBPlayers";
         const cols = "*";
 
