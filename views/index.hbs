@@ -4,58 +4,101 @@
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 {{/if}}
-  <div style="height: 60px">
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3">
-      <div class="container-fluid" style="scrollbar-color: rgb(32, 32, 26);">
-        <a class="navbar-brand" href="/">DB: {{dbname}}.</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<div style="height: 60px">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3">
+    <div class="container-fluid" style="scrollbar-color: rgb(32, 32, 26);">
+      <a class="navbar-brand" href="/">DB: {{dbname}}.</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-        </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          `<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="http://localhost:5000/">Home</a>
-              </li>
-              <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Tables
-                </a>
-                <ul class="dropdown-menu" style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;dropdown-menu::-webkit-scrollbar:{color: black}" aria-labelledby="navbarDropdown">
-                      <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;" href="http://localhost:5000/showTables">List all tables</a></li>
-                      <div class="dropdown-divider"></div>
-                      {{#each tableList}}
-                        <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;" href="http://localhost:5000/queryTable/{{Tables_in_DB}}">{{Tables_in_DB}}</a></li>
-                        <div class="dropdown-divider"></div>
-                    {{/each}}
-                </ul>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Databases
-                </a>
-                <ul class="dropdown-menu" style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;dropdown-menu::-webkit-scrollbar:{color: black}" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;" 
-                    href="http://localhost:5000/dbselect/Football">Football</a></li>
-                    <div class="dropdown-divider"></div>
-                    <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;" 
-                    href="http://localhost:5000/dbselect/Baseball25">Baseball</a></li>
-                </ul>
-                <!-- <a class="nav-link disabled">Disabled.</a> -->
-              </li>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        `<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="http://localhost:5000/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Tables
+            </a>
+            <ul class="dropdown-menu"
+              style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;dropdown-menu::-webkit-scrollbar:{color: black}"
+              aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                  href="http://localhost:5000/showTables">List all tables</a></li>
+              <div class="dropdown-divider"></div>
+              {{#each tableList}}
+              <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                  href="http://localhost:5000/queryTable/{{Tables_in_DB}}">{{Tables_in_DB}}</a></li>
+              <div class="dropdown-divider"></div>
+              {{/each}}
             </ul>
-          <form class="d-flex me-10" id="queryForm" method="POST" action="/" novalidate>
-              <textarea style="background-color: black; font-size:small; width: 200px; color: white;" class="form-control me-2" type="submit" value="{{cols}}" placeholder="select" name="columns" aria-label="Columns">{{cols}}</textarea>
-              <input style="background-color: black; font-size:small; width: 200px; color: white;" class="form-control me-2"  form="queryForm" type="textarea" value="{{table}}" placeholder="from" name="table_name" aria-label="Table">
-              <textarea style="background-color: black; font-size:small; height: 70px; width: 480px; color: white;" class="form-control me-2" form="queryForm" type="submit" value="{{whereTerm}}" placeholder="where" name="where_term" aria-label="Where">{{whereTerm}}</textarea>
-              <textarea style="background-color: black; font-size:small; width: 200px; color: white;" class="form-control me-2" form="queryForm" type="submit" value="{{orderTerm}}" placeholder="order by" name="order_term" aria-label="Order">{{orderTerm}}</textarea>
-              <button class="btn btn-outline-light" type="submit">Search</button>
-          </form>
-        </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Databases
+            </a>
+            <ul class="dropdown-menu"
+              style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;dropdown-menu::-webkit-scrollbar:{color: black}"
+              aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                  href="http://localhost:5000/dbselect/Football">Football</a></li>
+              <div class="dropdown-divider"></div>
+              <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                  href="http://localhost:5000/dbselect/Baseball25">Baseball</a></li>
+            </ul>
+            <!-- <a class="nav-link disabled">Disabled.</a> -->
+          </li>
+        </ul>
+        <form class="d-flex me-10" id="queryForm" method="POST" action="/" novalidate>
+
+          <!-- SELECT (columns) -->
+          <textarea style="background-color: black; font-size:small; width: 200px; color: white;"
+            class="form-control me-2" name="columns" placeholder="select" aria-label="Columns">{{cols}}</textarea>
+
+          <!-- FROM (table name) -->
+          <input style="background-color: black; font-size:small; width: 200px; color: white;" class="form-control me-2"
+            type="text" name="table_name" placeholder="from" value="{{table}}" aria-label="Table" />
+
+          <!-- WHERE -->
+          <textarea style="background-color: black; font-size:small; height: 70px; width: 480px; color: white;"
+            class="form-control me-2" name="where_term" placeholder="where" aria-label="Where">{{whereTerm}}</textarea>
+
+          <!-- ORDER BY -->
+          <textarea style="background-color: black; font-size:small; width: 200px; color: white;"
+            class="form-control me-2" name="order_term" placeholder="order by"
+            aria-label="Order">{{orderTerm}}</textarea>
+
+          <!-- Submit button -->
+          <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("queryForm");
+
+            // Enable Enter to submit, Shift+Enter to newline
+            form.addEventListener("keydown", function (e) {
+              if (e.key === "Enter") {
+                if (e.shiftKey) {
+                  // Allow newline
+                  return;
+                }
+                // Submit on Enter
+                e.preventDefault();
+                form.submit();
+              }
+            });
+          });
+        </script>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
+</div>
 <div>
   <div style="height: 40px;" class="row">
     <div>
@@ -65,24 +108,26 @@
   <div style="overflow: scroll; height: 860px;" class="scrollbar scrollbar-primary">
     <table style="border: rgb(54, 59, 50);" class="table table-bordered sortable">
       <thead style="position: sticky;margin-top:0px;top: 0;" class="thead">
-          {{#each rows.[0]}}
-            <th style="height: 50px; border: 5px; background: black; color: grey;" class="header" scope="col">
-              {{!-- <a style="color: grey;" href="http://localhost:5000/queryTable/{{../table}}/{{@key}}&{{../ascFlag}}">{{@key}}</a> --}}
-              <a style="color: grey;" href="http://localhost:5000/api/query?table={{../table}}&columns='{{../cols}}'&where='{{../whereTerm}}'&orderBy='{{@key}}'&asc={{../ascFlag}}">{{@key}}</a>
-            </th>
-          {{/each}}
+        {{#each rows.[0]}}
+        <th style="height: 50px; border: 5px; background: black; color: grey;" class="header" scope="col">
+          {{!-- <a style="color: grey;"
+            href="http://localhost:5000/queryTable/{{../table}}/{{@key}}&{{../ascFlag}}">{{@key}}</a> --}}
+          <a style="color: grey;"
+            href="http://localhost:5000/api/query?table={{../table}}&columns='{{../cols}}'&where='{{../whereTerm}}'&orderBy='{{@key}}'&asc={{../ascFlag}}">{{@key}}</a>
+        </th>
+        {{/each}}
       </thead>
       <div style="height: 0.1px;">
         <tr></tr>
       </div>
       <tbody>
-          {{#each rows}}
-          <tr>
-            {{#each this}}
-                <td style="color: rgb(161, 159, 159); font-size:small; white-space: nowrap;">{{this}}</td>
-            {{/each}}
-          </tr>
+        {{#each rows}}
+        <tr>
+          {{#each this}}
+          <td style="color: rgb(161, 159, 159); font-size:small; white-space: nowrap;">{{this}}</td>
           {{/each}}
+        </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>
