@@ -7,7 +7,10 @@ const cors = require("cors");
 const app = express();   // <-- moved above CORS
 
 app.use(cors({
-    origin: "https://www.rikonik.com"
+    origin: [
+        "https://www.rikonik.com",
+        "https://turquoise-elk-ltca.squarespace.com"
+    ]
 }));
 
 const dotenv = require("dotenv");
