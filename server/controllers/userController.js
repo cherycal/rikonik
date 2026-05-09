@@ -49,7 +49,10 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const schema = req.params?.db || "public";
+        const { resolveSchema } = require("../utils/schema");
+
+        const schema = resolveSchema(req);
+
         const dbname = schema;
         const table = "MLBPlayers";
         const cols = "*";
