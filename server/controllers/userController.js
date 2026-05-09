@@ -50,7 +50,7 @@ function closeDB(db) {
 exports.default = async (req, res) => {
     try {
         const dbname = "Neon"; 
-        const table = "ESPNRosters";
+        const table = "MLBPlayers";
         const cols = "*";
 
         // WHERE clause
@@ -115,7 +115,7 @@ exports.dbselect = (req, res) => {
     const tablePromise = getTables();
 
     const cols = "*"
-    let table = "ESPNRosters";
+    let table = "MLBPlayers";
 
     let whereTerm = queryWhere = req.query.where || ' ';
     if (req.query.where) {
@@ -167,7 +167,7 @@ exports.multi = (req, res) => {
     let db = getDB();
     let tablePromise = getTables();
     const queryPromise = new Promise(resolve => {
-        var sql = "select * from ESPNRosters";
+        var sql = "select * from MLBPlayers";
         var params = [];
         db.all(sql, params, (err, rows) => {
             if (err) {
@@ -348,7 +348,7 @@ exports.queryTable = (req, res) => {
 exports.queryTable = async (req, res) => {
     try {
         // --- Table name ---
-        let table = req.params.table || req.body.table_name || 'FGSplits';
+        let table = req.params.table || req.body.table_name || 'MLBPlayers';
 
         // --- WHERE clause ---
         let whereTerm = "";
