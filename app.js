@@ -2,30 +2,22 @@ require('dotenv').config();
 
 const express = require("express");
 const path = require("path");
-
 const cors = require("cors");
+
+const app = express();   // <-- moved above CORS
 
 app.use(cors({
     origin: "https://www.rikonik.com"
 }));
 
-
 const dotenv = require("dotenv");
 dotenv.config();
-// or require('dotenv').config();
 
 const exphbs = require('express-handlebars');
 const { engine } = require ('express-handlebars');
 const bodyParser = require("body-parser");
 
-//const { response } = require("express");
-
-const app = express();
-const PORT = 5050; // process.env.PORT
-
-// https://www.youtube.com/watch?v=1aXZQcG2Y6I
-// http://localhost:3000/
-// .../express-mysql> npm start
+const PORT = 5050;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -33,7 +25,6 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname,'public')));
 
 app.engine('hbs', engine({extname: '.hbs'}));
-//Sets our app to use the handlebars engine
 app.set('view engine', 'hbs');
 
 const routes = require('./server/routes/user');
