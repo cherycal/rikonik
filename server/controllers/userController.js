@@ -49,9 +49,7 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const { resolveSchema } = require("../../utils/schema");
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
         const table = "MLBPlayers";
         const cols = "*";
@@ -113,10 +111,7 @@ exports.default = async (req, res) => {
 exports.dbselect = async (req, res) => {
     try {
         // The schema the user wants to switch to
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params.db || "public";
         const dbname = schema;  // for UI display
 
         console.log("dbselect Params:", JSON.stringify(req.params));
@@ -181,10 +176,7 @@ exports.dbselect = async (req, res) => {
 exports.multi = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
 
         // First query: list tables in this schema
         const tablePromise = getTables(schema);
@@ -217,10 +209,7 @@ exports.multi = async (req, res) => {
 exports.queryAPI = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
 
         // List tables for dropdown
@@ -301,10 +290,7 @@ exports.queryAPI = async (req, res) => {
 exports.queryTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
 
         // --- Table name ---
@@ -390,14 +376,10 @@ exports.queryTable = async (req, res) => {
 
 // NEED to rewrite selectTable and showTables to use basicQuery and getTables, and to be schema-aware. Then we can delete queryTable and just use it for all queries since it's so flexible.
 
-
 exports.selectTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
 
         console.log("selectTable Params:", JSON.stringify(req.params));
@@ -475,10 +457,7 @@ exports.selectTable = async (req, res) => {
 exports.showTables = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../../utils/schema");
-
-        const schema = resolveSchema(req);
-
+        const schema = req.params?.db || "public";
         const dbname = schema;
 
         // Get table list from this schema
