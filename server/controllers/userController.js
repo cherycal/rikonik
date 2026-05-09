@@ -462,8 +462,9 @@ exports.selectTable = async (req, res) => {
 exports.showTables = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const schema = req.params?.db || "public";
+        const schema = resolveSchema(req);
         const dbname = schema;
+
 
         // Get table list from this schema
         const tablesResult = await getTables(schema);
