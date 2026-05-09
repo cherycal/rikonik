@@ -488,7 +488,8 @@ exports.showTables = async (req, res) => {
 
 exports.tableOnly = async (req, res) => {
     try {
-        const schema = req.params.db || "public";
+        const schema = resolveSchema(req);
+        const dbname = schema;
         const table = "MLBPlayers";
         const cols = "*";
 
