@@ -295,7 +295,7 @@ exports.queryAPI = async (req, res) => {
 exports.queryTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const schema = req.params?.db || "public";
+        const schema = resolveSchema(req);
         const dbname = schema;
 
         // --- Table name ---
