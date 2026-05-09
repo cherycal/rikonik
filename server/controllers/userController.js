@@ -49,7 +49,7 @@ function closeDB(db) {
 
 exports.default = async (req, res) => {
     try {
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
         const schema = resolveSchema(req);
 
         const dbname = schema;
@@ -113,7 +113,7 @@ exports.default = async (req, res) => {
 exports.dbselect = async (req, res) => {
     try {
         // The schema the user wants to switch to
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
@@ -181,7 +181,7 @@ exports.dbselect = async (req, res) => {
 exports.multi = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
@@ -217,7 +217,7 @@ exports.multi = async (req, res) => {
 exports.queryAPI = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
@@ -301,7 +301,7 @@ exports.queryAPI = async (req, res) => {
 exports.queryTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
@@ -394,7 +394,7 @@ exports.queryTable = async (req, res) => {
 exports.selectTable = async (req, res) => {
     try {
         // --- Schema selection (default = public) ---
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
@@ -475,7 +475,7 @@ exports.selectTable = async (req, res) => {
 exports.showTables = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const { resolveSchema } = require("../utils/schema");
+        const { resolveSchema } = require("../../utils/schema");
 
         const schema = resolveSchema(req);
 
