@@ -180,7 +180,8 @@ exports.dbselect = async (req, res) => {
 exports.multi = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const schema = req.params?.db || "public";
+        const { resolveSchema } = require("../utils/schema");
+        const schema = resolveSchema(req);
 
         // First query: list tables in this schema
         const tablePromise = getTables(schema);
