@@ -47,59 +47,64 @@ function closeDB(db) {
     });
 }
 
-exports.default = (req, res) => {
+exports.default = async (req, res) => {
+    try {
+        const table = "ESPNRosters";
+        const cols = "*";
 
-    let db = getDB();
-    const tablePromise = getTables();
+        // WHERE clause
+        let whereTerm = req.query.where || "";
+        let queryWhere = "";
 
-    const cols = "*"
-    let table = "ESPNRosters";
-
-    let whereTerm = queryWhere = req.query.where || ' ';
-    if (req.query.where) {
-        console.log("req.query.where:" + req.query.where + ".");
-    }
-    console.log("exports.default Params: " + JSON.stringify(req.params));
-    console.log("exports.default Req.body: " + JSON.stringify(req.body));
-    if (req.query.where) {
-        queryWhere = " WHERE " + req.query.where;
-    }
-    if (queryWhere != ' ') {
-        queryWhere = queryWhere.replace(/'/g, '');
-        whereTerm = whereTerm.replace(/'/g, '');
-    } else {
-        whereTerm = ""
-    }
-
-    // Ascending or descending sort 
-    let asc = req.query.asc || "";
-    let orderTerm = req.body.order_term || req.query.orderBy || " ";
-    if (orderTerm != ' ') {
-        orderTerm = orderTerm.replace(/'/g, '');
-        orderTerm = " ORDER BY " + orderTerm;
-        orderTerm += " " + asc;
-    }
-    // Flip ascending/descending when sorting by clicking on column
-    // header
-    let ascFlag = asc === "asc" ? "desc" : "asc";
-
-    const sql = "select " + cols + " from " + table + " " + whereTerm + orderTerm
-    const queryPromise = basicQuery(sql);
-    const message = sql;
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        if (queryResult.message) {
-            message = queryResult.message;
+        if (whereTerm.trim() !== "") {
+            console.log("req.query.where:", whereTerm);
+            whereTerm = whereTerm.replace(/'/g, "");
+            queryWhere = " WHERE " + whereTerm;
         }
-        res.render('index', { tableList, rows, message, table, cols, whereTerm, orderTerm, ascFlag, dbname });
-        // res.render('index',{tableList, rows, table, message, whereTerm, orderTerm, cols, ascFlag} );
-    }).catch(error => console.log(error.message));
-    closeDB(db);
-}
+
+        // ORDER BY clause
+        let asc = req.query.asc || "";
+        let orderTerm = req.body.order_term || req.query.orderBy || "";
+
+        if (orderTerm.trim() !== "") {
+            orderTerm = orderTerm.replace(/'/g, "");
+            orderTerm = " ORDER BY " + orderTerm + " " + asc;
+        }
+
+        // Flip asc/desc for UI column header clicks
+        let ascFlag = asc === "asc" ? "desc" : "asc";
+
+        // Final SQL
+        const sql = `SELECT ${cols} FROM ${table}${queryWhere}${orderTerm}`;
+        console.log("SQL:", sql);
+
+        // Run both queries in parallel
+        const [tablesResult, queryResult] = await Promise.all([
+            getTables(),
+            basicQuery(sql)
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = sql;
+
+        res.render("index", {
+            tableList,
+            rows,
+            message,
+            table,
+            cols,
+            whereTerm,
+            orderTerm,
+            ascFlag,
+            dbname
+        });
+
+    } catch (error) {
+        console.error("Error in exports.default:", error);
+        res.status(500).send("Server error");
+    }
+};
 
 exports.dbselect = (req, res) => {
     //let db = getDB(req.params.db);
