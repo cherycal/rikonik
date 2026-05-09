@@ -172,35 +172,37 @@ exports.dbselect = async (req, res) => {
     }
 };
 
-exports.multi = (req, res) => {
-    let db = getDB();
-    let tablePromise = getTables();
-    const queryPromise = new Promise(resolve => {
-        var sql = "select * from MLBPlayers";
-        var params = [];
-        db.all(sql, params, (err, rows) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            const queryTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-            resolve({ sql, queryTime, rows });
+exports.multi = async (req, res) => {
+    try {
+        // Schema selection (default = public)
+        const schema = req.params?.db || "public";
+
+        // First query: list tables in this schema
+        const tablePromise = getTables(schema);
+
+        // Second query: simple SELECT * FROM MLBPlayers
+        const sql = `SELECT * FROM ${schema}.MLBPlayers`;
+        const queryPromise = basicQuery(sql);
+
+        // Run both in parallel
+        const [tablesResult, queryResult] = await Promise.all([
+            tablePromise,
+            queryPromise
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+
+        res.render("index", {
+            tableList,
+            rows
         });
-    })
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        // console.log(tablesResult.rows);
-        // console.log(queryResult.rows);
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        // res.json({
-        //     "message":"success",
-        //     "data":{currentTime,values}
-        // });
-        res.render('index', { tableList, rows });
-    });
-    closeDB(db);
-}
+
+    } catch (error) {
+        console.error("Error in multi:", error);
+        res.status(500).send("Server error");
+    }
+};
 
 
 exports.queryAPI = (req, res) => {
