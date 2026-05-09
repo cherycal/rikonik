@@ -489,6 +489,8 @@ exports.showTables = async (req, res) => {
 exports.tableOnly = async (req, res) => {
     try {
         console.log("🔥 tableOnly route HIT");
+        console.log("🔥 URL HIT:", req.originalUrl);
+
 
         const schema = req.params.db || "public";
         const table = "MLBPlayers";
