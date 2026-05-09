@@ -5,8 +5,10 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
-function basicQuery(sql, params = []) {
+async function basicQuery(sql, params = []) {
+  console.log("🔥 basicQuery CALLED with:", sql);
   return pool.query(sql, params);
 }
+
 
 module.exports = { basicQuery };
