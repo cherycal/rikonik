@@ -114,8 +114,9 @@ exports.default = async (req, res) => {
 exports.dbselect = async (req, res) => {
     try {
         // The schema the user wants to switch to
-        const schema = req.params.db || "public";
-        const dbname = schema;  // for UI display
+        const schema = resolveSchema(req);
+        const dbname = schema;
+
 
         console.log("dbselect Params:", JSON.stringify(req.params));
 
