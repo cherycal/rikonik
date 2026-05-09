@@ -288,25 +288,30 @@ exports.queryAPI = async (req, res) => {
 
 exports.queryTable = async (req, res) => {
     try {
+        // --- Schema selection (default = public) ---
+        const schema = req.params?.db || "public";
+        const dbname = schema;
+
         // --- Table name ---
-        let table = req.params.table || req.body.table_name || 'MLBPlayers';
+        let table = req.params.table || req.body.table_name || "mlbplayers";
+        table = table.replace(/'/g, "");
 
         // --- WHERE clause ---
         let whereTerm = "";
 
-        if (req.params[0]) {
-            whereTerm = req.params[0];  // raw, untouched string
-        }
-
+        // Support multiple legacy patterns
         if (req.params.where) {
             whereTerm = decodeURIComponent(req.params.where);
         } else if (req.body.where_term) {
             whereTerm = req.body.where_term;
+        } else if (req.params[0]) {
+            whereTerm = req.params[0];
         }
 
         let queryWhere = "";
         if (whereTerm && whereTerm.trim() !== "") {
-            queryWhere = " WHERE " + whereTerm.replace(/'/g, "");
+            // DO NOT strip quotes — Postgres needs them
+            queryWhere = " WHERE " + whereTerm;
         }
 
         // --- ORDER BY ---
@@ -321,22 +326,35 @@ exports.queryTable = async (req, res) => {
         }
 
         // --- Columns ---
-        let cols = (req.body.columns || "*").replace(/\s+/g, "");
+        let cols = req.body.columns || "*";
+        cols = cols.replace(/'/g, "").replace(/\s+/g, "");
+        if (!cols.trim()) cols = "*";
 
-        // --- Final SQL ---
-        let query = `SELECT ${cols} FROM ${table} ${queryWhere} ${orderTerm} LIMIT 2000`;
+        // --- Final SQL (schema-aware) ---
+        const sql = `
+            SELECT ${cols}
+            FROM ${schema}.${table}
+            ${queryWhere}
+            ${orderTerm}
+            LIMIT 2000
+        `;
+
+        console.log("queryTable SQL:", sql);
 
         // --- Run both queries in parallel ---
         const [tablesResult, queryResult] = await Promise.all([
-            getTables(),          // <-- this must already use basicQuery internally
-            basicQuery(query)
+            getTables(schema),
+            basicQuery(sql)
         ]);
 
-        let tableList = tablesResult.rows;
-        let rows = queryResult.rows;
-        let message = queryResult.message || query;
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = queryResult.message || sql;
 
-        res.render('index', {
+        // Flip asc/desc for UI
+        const ascFlag = req.params.ad === "asc" ? "desc" : "asc";
+
+        res.render("index", {
             tableList,
             rows,
             table,
@@ -344,7 +362,7 @@ exports.queryTable = async (req, res) => {
             whereTerm,
             orderTerm,
             cols,
-            ascFlag: req.params.ad === "asc" ? "desc" : "asc",
+            ascFlag,
             dbname
         });
 
