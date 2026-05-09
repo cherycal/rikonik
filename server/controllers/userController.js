@@ -50,7 +50,60 @@ function closeDB(db) {
 }
 
 exports.default = async (req, res) => {
-    res.send("OK");
+    try {
+        const schema = resolveSchema(req);
+        const dbname = schema;
+
+        const table = "MLBPlayers";   // or whatever your default table is
+        const cols = "*";
+
+        // WHERE clause
+        let whereTerm = req.query.where || "";
+        let queryWhere = "";
+
+        if (whereTerm.trim() !== "") {
+            whereTerm = whereTerm.replace(/'/g, "");
+            queryWhere = " WHERE " + whereTerm;
+        }
+
+        // ORDER BY clause
+        let asc = req.query.asc || "";
+        let orderTerm = req.body.order_term || req.query.orderBy || "";
+
+        if (orderTerm.trim() !== "") {
+            orderTerm = orderTerm.replace(/'/g, "");
+            orderTerm = " ORDER BY " + orderTerm + " " + asc;
+        }
+
+        let ascFlag = asc === "asc" ? "desc" : "asc";
+
+        const sql = `SELECT ${cols} FROM ${table}${queryWhere}${orderTerm}`;
+
+        const [tablesResult, queryResult] = await Promise.all([
+            getTables(),
+            basicQuery(sql)
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = sql;
+
+        res.render("index", {
+            tableList,
+            rows,
+            table,
+            message,
+            whereTerm,
+            orderTerm,
+            cols,
+            ascFlag,
+            dbname
+        });
+
+    } catch (error) {
+        console.error("Error in exports.default:", error);
+        res.status(500).send("Server error");
+    }
 };
 
 exports.dbselect = async (req, res) => {
