@@ -372,109 +372,111 @@ exports.queryTable = async (req, res) => {
     }
 };
 
-exports.selectTable = (req, res) => {
 
-    let db = getDB();
-    let tablePromise = getTables();
+// NEED to rewrite selectTable and showTables to use basicQuery and getTables, and to be schema-aware. Then we can delete queryTable and just use it for all queries since it's so flexible.
 
-    console.log("exports.selectTable Params:\n" + JSON.stringify(req.params));
-    //let args = new Object();
-    table = Object.values(req.params)[0];
-    orderBy = Object.values(req.params)[1];
+exports.selectTable = async (req, res) => {
+    try {
+        // --- Schema selection (default = public) ---
+        const schema = req.params?.db || "public";
+        const dbname = schema;
 
-    if (orderBy) {
-        orderBy = orderBy.replace(/\&/g, '');
+        console.log("selectTable Params:", JSON.stringify(req.params));
+
+        // --- Extract table, orderBy, asc from params ---
+        // Old code used Object.values(req.params)[0..2]
+        const table = (req.params.table || "").replace(/'/g, "") || "MLBPlayers";
+        let orderBy = req.params.orderBy || "";
+        let asc = req.params.ad || "";
+
+        if (orderBy) {
+            orderBy = orderBy.replace(/&/g, "");
+        }
+
+        // --- Columns ---
+        let cols = req.body.columns || "*";
+        cols = cols.replace(/\s+/g, "");
+        if (!cols.trim()) cols = "*";
+
+        // --- ORDER BY clause ---
+        let orderTerm = "";
+        if (orderBy && asc) {
+            orderTerm = ` ORDER BY ${orderBy} ${asc}`;
+        }
+
+        // --- WHERE clause (optional) ---
+        let whereTerm = req.body.where_term || "";
+        let queryWhere = "";
+        if (whereTerm && whereTerm.trim() !== "") {
+            queryWhere = " WHERE " + whereTerm;
+        }
+
+        // --- Final SQL (schema-aware) ---
+        const sql = `
+            SELECT ${cols}
+            FROM ${schema}.${table}
+            ${queryWhere}
+            ${orderTerm}
+            LIMIT 1000
+        `;
+
+        console.log("query from selectTable:", sql);
+
+        // --- Run both queries in parallel ---
+        const [tablesResult, queryResult] = await Promise.all([
+            getTables(schema),
+            basicQuery(sql)
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = sql;
+
+        // Flip asc/desc for UI
+        const ascFlag = asc === "asc" ? "desc" : "asc";
+
+        res.render("index", {
+            table,
+            message,
+            whereTerm,
+            orderTerm,
+            tableList,
+            rows,
+            ascFlag,
+            columnsTerm: req.body.columns,
+            dbname
+        });
+
+    } catch (err) {
+        console.error("selectTable error:", err);
+        res.status(500).json({ error: err.message });
     }
-    asc = Object.values(req.params)[2];
-    let cols = req.body.columns || "*";
-    cols = cols.replace(/\s+/g, '');
+};
 
-    query = 'SELECT ' + cols + ' FROM ' + table;
+exports.showTables = async (req, res) => {
+    try {
+        // Schema selection (default = public)
+        const schema = req.params?.db || "public";
+        const dbname = schema;
 
-    if (orderBy && asc) {
-        query += asc;
+        // Get table list from this schema
+        const tablesResult = await getTables(schema);
+
+        const rows = tablesResult.rows;
+        const message = `Tables in schema: ${schema}`;
+
+        console.log("showTables rows:", rows);
+
+        res.render("showTables", {
+            rows,
+            message,
+            dbname
+        });
+
+    } catch (err) {
+        console.error("showTables error:", err);
+        res.status(500).json({ error: err.message });
     }
-    // asc desc ... 
-
-    query += ' LIMIT 1000';
-
-    var queries = [
-        "SHOW TABLES",
-        query
-    ];
-
-    let ascFlag = asc === "asc" ? "desc" : "asc";
-
-    message = query;
-    whereTerm = req.body.where_term;
-    orderTerm = req.body.order_term;
-    columnsTerm = req.body.columns;
-    if (orderTerm) {
-        orderTerm = orderTerm.replace('&', '');
-    }
-
-    console.log('query from selectTable: ' + query);
-
-    const queryPromise = basicQuery(query);
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        // res.render('index',{tableList, rows, table, message, whereTerm, orderTerm, cols, ascFlag} );
-        res.render('index', { table, message, whereTerm, orderTerm, tableList, rows, ascFlag, columnsTerm })
-    });
-    closeDB(db);
-
-}
-
-
-exports.showTables = (req, res) => {
-
-    let db = getDB();
-    let tablePromise = getTables();
-
-    let query = "select name, type as Tables_in_DB from SQLITE_SCHEMA order by name";
-    let message = query;
-
-    const queryPromise = basicQuery(query);
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        console.log(rows);
-        res.render('showTables', { rows, message });
-    });
-    closeDB(db);
-
-    // pool.getConnection((err, connection) => {
-    //     if(err){
-    //         console.log(err);
-    //         res.status(400);
-    //         res.send("DB connection failed: " + query);
-    //     }
-    //     //showRows();
-    //     const message = "Available tables: "
-    //     //console.log('Connected by pool method using threadID: ' + connection.threadId);
-    //     //console.log(typeof(req.params));
-    //     const table = Object.values(req.params)[0];
-    //     const query = 'SHOW TABLES';
-    //     connection.query(query, (err, rows) => {
-    //         connection.release();
-    //         if(!err){
-    //             res.render('showTables',{rows, message} );
-    //         } else {
-    //             console.log(err);
-    //             res.status(400);
-    //             res.send("Illegal query: " + query);
-    //         }
-    //         //console.log('Data from showTables: ' + query);
-
-    //     });
-    // });
-}
+};
 
 
