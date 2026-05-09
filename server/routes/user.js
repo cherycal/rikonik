@@ -7,6 +7,9 @@ const { queryTable } = require('../controllers/userController');
 router.post('/', userController.queryTable);
 
 // BASIC ROUTES
+// ⭐ NEW: TABLE-ONLY ROUTE FOR SQUARESPACE
+router.get('/tableonly/:db?', userController.tableOnly);
+
 router.get('/', userController.default);
 router.get('/multi', userController.multi);
 router.get('/dbselect/:db', userController.dbselect);
@@ -28,9 +31,6 @@ router.get('/query/:table', queryTable);
 
 // SHOW TABLES (you had this twice)
 router.get('/showTables', userController.showTables);
-
-// ⭐ NEW: TABLE-ONLY ROUTE FOR SQUARESPACE
-router.get('/tableonly/:db?', userController.tableOnly);
 
 // WILDCARD MUST BE LAST
 router.get('*', (req, res) => {
