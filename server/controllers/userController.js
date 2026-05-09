@@ -235,10 +235,9 @@ exports.queryAPI = async (req, res) => {
 
         // ORDER BY
         let asc = req.query.asc || "";
-        let orderTerm = req.body.order_term || req.query.orderBy || "";
+        let orderTerm = req.body?.order_term || req.query.orderBy || "";
 
         if (orderTerm.trim() !== "") {
-            orderTerm = orderTerm.replace(/'/g, "");
             orderTerm = " ORDER BY " + orderTerm + " " + asc;
         }
 
