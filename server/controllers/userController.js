@@ -501,6 +501,8 @@ exports.tableOnly = async (req, res) => {
             cols: result.fields.map(f => f.name),
             rows: result.rows
         });
+        console.log("🔥 tableOnly route HIT");
+
 
     } catch (err) {
         console.error("Error in tableOnly:", err);
