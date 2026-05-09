@@ -205,92 +205,90 @@ exports.multi = async (req, res) => {
 };
 
 
-exports.queryAPI = (req, res) => {
+exports.queryAPI = async (req, res) => {
+    try {
+        // Schema selection (default = public)
+        const schema = req.params?.db || "public";
+        const dbname = schema;
 
-    // router.get('/api/query',userController.queryAPI);
-    // open a sqlite3 connection
-    let db = getDB();
-    // list of tables/views for dropdown list
-    let tablePromise = getTables();
+        // List tables for dropdown
+        const tablePromise = getTables(schema);
 
-    let cols = req.body.columns || req.query.columns || '*';
+        // Columns
+        let cols = req.body.columns || req.query.columns || "*";
+        cols = cols.replace(/'/g, "");
+        if (!cols.trim()) cols = "*";
 
-    // strip all single quotes: single quotes are necessary
-    // for urls but will result in an error in a query
-    cols = cols.replace(/'/g, '');
-    if (cols == '') {
-        cols = '*';
-    }
+        // Table
+        let table = req.body.table || req.query.table || "MLBPlayers";
+        table = table.replace(/'/g, "");
 
-    // the table to select from
-    let table = req.body.table || req.query.table || "ESPNRosters";
+        // WHERE clause
+        let whereTerm = req.query.where || "";
+        let queryWhere = "";
 
-    // the where clause
-    let whereTerm = queryWhere = req.query.where || " ";
+        if (whereTerm.trim() !== "") {
+            whereTerm = whereTerm
+                .replace(/'/g, "")
+                .replace(/%27/g, "")
+                .replace(/%20/g, " ")
+                .replace(/%22/g, '"');
 
-    //console.log('queryWhere from queryAPI 1:' + queryWhere + ':' );
-
-    // The actual word WHERE is not in url request 
-    if (req.query.where != "''") {
-        queryWhere = " WHERE " + req.query.where;
-    }
-
-    //console.log('queryWhere from queryAPI 2:' + queryWhere + ':');
-
-    // strip all single quotes: single quotes are necessary
-    // for urls but will result in an error in a query
-    if (queryWhere != ' ') {
-        queryWhere = queryWhere.replace(/'/g, '');
-        whereTerm = whereTerm.replace(/'/g, '');
-        queryWhere = queryWhere.replace(/%27/g, '');
-        queryWhere = queryWhere.replace(/%20/g, ' ');
-        queryWhere = queryWhere.replace(/%22/g, '\"');
-        whereTerm = whereTerm.replace(/%27/g, '');
-        whereTerm = whereTerm.replace(/%20/g, ' ');
-        whereTerm = whereTerm.replace(/%22/g, '\"');
-    }
-
-    // Ascending or descending sort 
-    let asc = req.query.asc || "";
-    let orderTerm = req.body.order_term || req.query.orderBy || " ";
-    if (orderTerm != ' ') {
-        orderTerm = orderTerm.replace(/'/g, '');
-        orderTerm = " ORDER BY " + orderTerm;
-        orderTerm += " " + asc;
-    }
-
-    // Flip ascending/descending when sorting by clicking on column
-    // header
-    let ascFlag = asc === "asc" ? "desc" : "asc";
-
-
-    let query = "SELECT " + cols + " FROM " + table + " " + queryWhere + " " + orderTerm + " LIMIT 2000";
-    let queries = [
-        "SHOW TABLES",
-        query
-    ];
-    let message = query;
-
-    console.log('Data from queryAPI: ' + query)
-    console.log("");
-    console.log('Data from queryAPI: ' + query);
-    console.log('whereTerm from queryAPI:' + whereTerm + ':');
-    console.log('queryWhere from queryAPI:' + queryWhere + ':');
-
-    const queryPromise = basicQuery(query);
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        if (queryResult.message) {
-            message = queryResult.message;
+            queryWhere = " WHERE " + whereTerm;
         }
-        res.render('index', { tableList, rows, table, message, whereTerm, orderTerm, cols, ascFlag, dbname });
-    });
-    closeDB(db);
-}
+
+        // ORDER BY
+        let asc = req.query.asc || "";
+        let orderTerm = req.body.order_term || req.query.orderBy || "";
+
+        if (orderTerm.trim() !== "") {
+            orderTerm = orderTerm.replace(/'/g, "");
+            orderTerm = " ORDER BY " + orderTerm + " " + asc;
+        }
+
+        // Flip asc/desc for UI
+        let ascFlag = asc === "asc" ? "desc" : "asc";
+
+        // Final SQL — schema‑aware
+        const sql = `
+            SELECT ${cols}
+            FROM ${schema}.${table}
+            ${queryWhere}
+            ${orderTerm}
+            LIMIT 2000
+        `;
+
+        console.log("queryAPI SQL:", sql);
+        console.log("whereTerm:", whereTerm);
+        console.log("queryWhere:", queryWhere);
+
+        // Run both queries in parallel
+        const [tablesResult, queryResult] = await Promise.all([
+            tablePromise,
+            basicQuery(sql)
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = sql;
+
+        res.render("index", {
+            tableList,
+            rows,
+            table,
+            message,
+            whereTerm,
+            orderTerm,
+            cols,
+            ascFlag,
+            dbname
+        });
+
+    } catch (error) {
+        console.error("Error in queryAPI:", error);
+        res.status(500).send("Server error");
+    }
+};
 
 
 exports.queryTable = async (req, res) => {
