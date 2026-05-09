@@ -1,0 +1,63 @@
+{{#if removedUser}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  User has been removed.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+ <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">DB: Football</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="http://localhost:5000/">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tables
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="http://localhost:5000/showTables">List tables</a></li>
+                <div class="dropdown-divider"></div>
+                {{#each rows}}
+                  <li><a class="dropdown-item" href="http://localhost:5000/table/{{name}}">{{name}} ({{Tables_in_DB}})</a></li>
+                {{/each}}
+            </ul>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link disabled">Disabled</a>
+            </li>
+        </ul>
+
+        {{!-- <form class="d-flex me-10" method="POST" action="/" novalidate>
+            <input style="background-color: black; font-size:small; width: 280px; color: white;" class="form-control me-2" type="search" placeholder="{{table}}" name="table_name" aria-label="Table">
+            <input style="background-color: black; font-size:small; width: 480px; color: white;" class="form-control me-2" type="search" placeholder="{{whereTerm}}" name="where_term" aria-label="Where">
+            <input style="background-color: black; font-size:small; width: 280px; color: white;" class="form-control me-2" type="search" placeholder="{{orderTerm}}" name="order_term" aria-label="Order">
+            <button class="btn btn-outline-light" type="submit">Search</button>
+        </form> --}}
+
+        </div>
+    </div>
+    </nav>
+<div class="row">
+  <div class="col-6">
+    <h4 style="font-size:medium; color: lightgrey; font-family: 'Courier New', Courier, monospace;">{{message}}{{table}}</h2>
+  </div>
+</div>
+<div style="height: 650px; overflow: scroll;">
+  <table style="border: rgb(54, 59, 50);" class="table table-bordered">
+    <tbody>
+      {{#each rows}}
+      <tr>
+            <a style="color: rgb(161, 159, 159); font-size:medium; white-space: nowrap;" target="_blank" class="nav-link" href="http://localhost:5000/table/{{name}}">{{name}} ({{Tables_in_DB}})</a>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

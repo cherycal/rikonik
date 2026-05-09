@@ -1,0 +1,58 @@
+
+head{
+	position: fixed;
+	width:100%;
+	background: grey;
+	background-color: grey;
+}
+
+body {
+	background-image: url("dist_dark.jpg");
+	background-position: bottom;
+  	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	height: 1200px;
+	/*
+	width: 900 px;
+	margin: auto;*/
+	font-size: large;
+	color: darkgoldenrod;
+	background-color: #222200;
+	scrollbar-color: rgb(67, 67, 70) rgb(12, 12, 12);
+}
+
+
+th{
+	font-family: Courier;
+	color: grey;
+	background-color: #220000;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+	width: 12px;
+	background-color: #211f1f; 
+}
+	
+.scrollbar-primary::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+	background-color: #1c1c1d; 
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+	background-color: #262222; 
+}
+	
+::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+	background-color: #1e1e1c; 
+}
+
+
+main .images {
+	float: right;
+}
+
