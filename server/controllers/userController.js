@@ -1,7 +1,7 @@
 const { basicQuery } = require('../db');
 //
 let moment = require('moment');
-let dbname = "Baseball25"
+let dbname = "public"
 
 async function getTables(schema = "public") {
     const sql = `
