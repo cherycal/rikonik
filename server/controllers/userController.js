@@ -213,8 +213,9 @@ exports.multi = async (req, res) => {
 exports.queryAPI = async (req, res) => {
     try {
         // Schema selection (default = public)
-        const schema = req.params?.db || "public";
+        const schema = resolveSchema(req);
         const dbname = schema;
+
 
         // List tables for dropdown
         const tablePromise = getTables(schema);
