@@ -247,7 +247,7 @@ exports.queryAPI = async (req, res) => {
         // Final SQL — schema‑aware
         const sql = `
             SELECT ${cols}
-            FROM ${schema}."${table}"
+            FROM ${schema}.${table}
             ${queryWhere}
             ${orderTerm}
             LIMIT 2000
