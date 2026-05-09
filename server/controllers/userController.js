@@ -3,16 +3,16 @@ const { basicQuery } = require('../db');
 let moment = require('moment');
 let dbname = "Baseball25"
 
-async function getTables() {
+async function getTables(schema = "public") {
     const sql = `
         SELECT table_name AS "Tables_in_DB"
         FROM information_schema.tables
-        WHERE table_schema = 'public'
+        WHERE table_schema = $1
         ORDER BY table_name;
     `;
 
     try {
-        const result = await basicQuery(sql);
+        const result = await basicQuery(sql, [schema]);
         const queryTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
 
         return {
@@ -107,61 +107,70 @@ exports.default = async (req, res) => {
     }
 };
 
-exports.dbselect = (req, res) => {
-    //let db = getDB(req.params.db);
-    dbname = req.params.db
-    console.log("")
-    console.log("exports.dbselect Params: " + JSON.stringify(req.params));
-    const tablePromise = getTables();
+exports.dbselect = async (req, res) => {
+    try {
+        // The schema the user wants to switch to
+        const schema = req.params.db || "public";
+        const dbname = schema;  // for UI display
 
-    const cols = "*"
-    let table = "MLBPlayers";
+        console.log("dbselect Params:", JSON.stringify(req.params));
 
-    let whereTerm = queryWhere = req.query.where || ' ';
-    if (req.query.where) {
-        console.log("req.query.where:" + req.query.where + ".");
-    }
-    console.log("exports.default Params: " + JSON.stringify(req.params));
-    console.log("exports.default Req.body: " + JSON.stringify(req.body));
-    if (req.query.where) {
-        queryWhere = " WHERE " + req.query.where;
-    }
-    if (queryWhere != ' ') {
-        queryWhere = queryWhere.replace(/'/g, '');
-        whereTerm = whereTerm.replace(/'/g, '');
-    } else {
-        whereTerm = ""
-    }
+        const table = "MLBPlayers";
+        const cols = "*";
 
-    // Ascending or descending sort 
-    let asc = req.query.asc || "";
-    let orderTerm = req.body.order_term || req.query.orderBy || " ";
-    if (orderTerm != ' ') {
-        orderTerm = orderTerm.replace(/'/g, '');
-        orderTerm = " ORDER BY " + orderTerm;
-        orderTerm += " " + asc;
-    }
-    // Flip ascending/descending when sorting by clicking on column
-    // header
-    let ascFlag = asc === "asc" ? "desc" : "asc";
+        // WHERE clause
+        let whereTerm = req.query.where || "";
+        let queryWhere = "";
 
-    const sql = "select " + cols + " from " + table + " " + whereTerm + orderTerm
-    const queryPromise = basicQuery(sql);
-    const message = sql;
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        if (queryResult.message) {
-            message = queryResult.message;
+        if (whereTerm.trim() !== "") {
+            console.log("req.query.where:", whereTerm);
+            whereTerm = whereTerm.replace(/'/g, "");
+            queryWhere = " WHERE " + whereTerm;
         }
-        res.render('index', { tableList, rows, message, table, cols, whereTerm, orderTerm, ascFlag, dbname });
-        // res.render('index',{tableList, rows, table, message, whereTerm, orderTerm, cols, ascFlag} );
-    }).catch(error => console.log(error.message));
-    closeDB(db);
-}
+
+        // ORDER BY clause
+        let asc = req.query.asc || "";
+        let orderTerm = req.body?.order_term || req.query.orderBy || "";
+
+        if (orderTerm.trim() !== "") {
+            orderTerm = orderTerm.replace(/'/g, "");
+            orderTerm = " ORDER BY " + orderTerm + " " + asc;
+        }
+
+        // Flip asc/desc for UI column header clicks
+        let ascFlag = asc === "asc" ? "desc" : "asc";
+
+        // Final SQL — now schema‑aware
+        const sql = `SELECT ${cols} FROM ${schema}.${table}${queryWhere}${orderTerm}`;
+        console.log("SQL:", sql);
+
+        // Run both queries in parallel
+        const [tablesResult, queryResult] = await Promise.all([
+            getTables(schema),   // now schema-aware
+            basicQuery(sql)
+        ]);
+
+        const tableList = tablesResult.rows;
+        const rows = queryResult.rows;
+        const message = sql;
+
+        res.render("index", {
+            tableList,
+            rows,
+            message,
+            table,
+            cols,
+            whereTerm,
+            orderTerm,
+            ascFlag,
+            dbname
+        });
+
+    } catch (error) {
+        console.error("Error in dbselect:", error);
+        res.status(500).send("Server error");
+    }
+};
 
 exports.multi = (req, res) => {
     let db = getDB();
@@ -281,69 +290,6 @@ exports.queryAPI = (req, res) => {
     closeDB(db);
 }
 
-
-/*
-exports.queryTable = (req, res) => {
-
-    let db = getDB();
-    let tablePromise = getTables();
-    console.log("")
-    console.log("exports.queryTable:")
-    console.log("exports.queryTable Params: " + JSON.stringify(req.params));
-    console.log("exports.queryTable Req.body: " + JSON.stringify(req.body));
-    let args = new Object();
-    let table = req.body.table_name || req.params.table || 'FGSplits';
-    let whereTerm = queryWhere = req.body.where_term || "";
-    if (req.body.where_term) {
-        queryWhere = " WHERE " + whereTerm;
-    }
-    let asc = req.params.ad || "asc";
-    let ascFlag = asc === "asc" ? "desc" : "asc";
-
-    let orderTerm = req.body.order_term || '';
-    if (req.params.orderBy) {
-        orderTerm = " ORDER BY " + req.params.orderBy;
-    }
-    if (orderTerm != '') {
-        orderTerm = orderTerm.replace(/\&/g, '');
-        orderTerm = orderTerm + ' ';
-        orderTerm += req.params.ad || '';
-    }
-    if (queryWhere != ' ') {
-        queryWhere = queryWhere.replace(/'/g, '');
-    }
-
-    let cols = req.body.columns || "*";
-    cols = cols.replace(/\s+/g, '');
-    let query = "SELECT " + cols + " FROM " + table + " " + queryWhere + " " + orderTerm + " LIMIT 2000";
-    let queries = [
-        "SHOW TABLES",
-        query
-    ];
-
-    let message = query;
-    console.log('Data from queryTable: ' + query);
-    console.log('whereTerm from queryTable: ' + whereTerm);
-    console.log('queryWhere from queryTable: ' + queryWhere);
-    console.log("Params: " + JSON.stringify(req.params));
-    console.log("Req.body: " + JSON.stringify(req.body));
-
-    const queryPromise = basicQuery(query);
-
-    Promise.all([tablePromise, queryPromise]).then(values => {
-        const currentTime = moment().format("h:mm:ss.SSS a MMM DD, YYYY");
-        let [tablesResult, queryResult] = values;
-        tableList = tablesResult.rows;
-        rows = queryResult.rows;
-        if (queryResult.message) {
-            message = queryResult.message;
-        }
-        res.render('index', { tableList, rows, table, message, whereTerm, orderTerm, cols, ascFlag, dbname });
-    });
-    closeDB(db);
-
-}
-*/
 
 exports.queryTable = async (req, res) => {
     try {
@@ -469,7 +415,6 @@ exports.selectTable = (req, res) => {
     closeDB(db);
 
 }
-
 
 
 exports.showTables = (req, res) => {
