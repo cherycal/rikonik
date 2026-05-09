@@ -486,4 +486,23 @@ exports.showTables = async (req, res) => {
     }
 };
 
+exports.tableOnly = async (req, res) => {
+    try {
+        const schema = resolveSchema(req);
+        const table = "MLBPlayers";
+        const cols = "*";
 
+        const sql = `SELECT ${cols} FROM ${schema}.${table}`;
+        const result = await basicQuery(sql);
+
+        res.render("partials/table", {
+            layout: false,   // <-- critical
+            cols: result.fields.map(f => f.name),
+            rows: result.rows
+        });
+
+    } catch (err) {
+        console.error("Error in tableOnly:", err);
+        res.status(500).send("Server error");
+    }
+};

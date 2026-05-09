@@ -1,0 +1,21 @@
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                {{#each cols}}
+                    <th>{{this}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+
+        <tbody>
+            {{#each rows}}
+                <tr>
+                    {{#each this}}
+                        <td>{{this}}</td>
+                    {{/each}}
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
