@@ -50,7 +50,6 @@ function closeDB(db) {
 exports.default = async (req, res) => {
     try {
         const { resolveSchema } = require("../utils/schema");
-
         const schema = resolveSchema(req);
 
         const dbname = schema;
@@ -114,7 +113,9 @@ exports.default = async (req, res) => {
 exports.dbselect = async (req, res) => {
     try {
         // The schema the user wants to switch to
-        const schema = req.params.db || "public";
+        const { resolveSchema } = require("../utils/schema");
+        const schema = resolveSchema(req);
+
         const dbname = schema;  // for UI display
 
         console.log("dbselect Params:", JSON.stringify(req.params));
