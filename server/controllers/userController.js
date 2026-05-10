@@ -211,7 +211,6 @@ exports.queryAPI = async (req, res) => {
         const schema = resolveSchema(req);
         const dbname = schema;
 
-
         // List tables for dropdown
         const tablePromise = getTables(schema);
 
@@ -225,18 +224,16 @@ exports.queryAPI = async (req, res) => {
         table = table.replace(/'/g, "");
 
         // WHERE clause
-
         let whereTerm = req.query.where || "";
-        if (whereTerm.trim() !== "") {
-            whereTerm = decodeURIComponent(whereTerm);
-            queryWhere = " WHERE " + whereTerm;
-        }
-
         let queryWhere = "";
 
         if (whereTerm.trim() !== "") {
-            // DO NOT strip quotes — Postgres needs them
-            // DO NOT decode URL encoding — Express already did
+            // Explicitly decode because Express is no longer doing it
+            try {
+                whereTerm = decodeURIComponent(whereTerm);
+            } catch (e) {
+                console.warn("decodeURIComponent failed, using raw whereTerm");
+            }
             queryWhere = " WHERE " + whereTerm;
         }
 
@@ -247,7 +244,6 @@ exports.queryAPI = async (req, res) => {
         if (orderTerm.trim() !== "") {
             orderTerm = " ORDER BY " + orderTerm + " " + asc;
         }
-
 
         // Flip asc/desc for UI
         let ascFlag = asc === "asc" ? "desc" : "asc";
