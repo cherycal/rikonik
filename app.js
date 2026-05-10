@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-// const hbs = require('hbs');
+
 const app = express();
 
 app.use(cors({
@@ -16,7 +16,6 @@ app.use(cors({
 const dotenv = require("dotenv");
 dotenv.config();
 
-const exphbs = require('express-handlebars');
 const { engine } = require('express-handlebars');
 const bodyParser = require("body-parser");
 
@@ -27,13 +26,15 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.engine('hbs', engine({ extname: '.hbs' }));  // GOOD
-app.set('view engine', 'hbs');                   // GOOD
+// Handlebars engine WITH helper
+app.engine('hbs', engine({
+  extname: '.hbs',
+  helpers: {
+    encode: (str) => encodeURIComponent(str || "")
+  }
+}));
 
-// Register helpers BEFORE rendering any templates
-hbs.registerHelper("encode", function (str) {
-  return encodeURIComponent(str || "");
-});                                              // GOOD
+app.set('view engine', 'hbs');
 
 const routes = require('./server/routes/user');
 app.use('/', routes);
