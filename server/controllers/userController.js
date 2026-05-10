@@ -226,6 +226,13 @@ exports.queryAPI = async (req, res) => {
 
         // WHERE clause
         let whereTerm = req.query.where || "";
+
+        let whereTerm = req.query.where || "";
+        if (whereTerm.trim() !== "") {
+            whereTerm = decodeURIComponent(whereTerm);
+            queryWhere = " WHERE " + whereTerm;
+        }
+
         let queryWhere = "";
 
         if (whereTerm.trim() !== "") {
@@ -242,7 +249,7 @@ exports.queryAPI = async (req, res) => {
             orderTerm = " ORDER BY " + orderTerm + " " + asc;
         }
 
-    
+
         // Flip asc/desc for UI
         let ascFlag = asc === "asc" ? "desc" : "asc";
 
