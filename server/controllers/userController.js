@@ -260,15 +260,12 @@ exports.queryAPI = async (req, res) => {
             queryWhere = " WHERE " + whereTerm;
         }
 
-        // --- ORDER BY ---
-        let orderTerm = "";
-        if (req.params.orderBy) {
-            orderTerm = " ORDER BY " + req.params.orderBy;
-            if (req.params.ad) {
-                orderTerm += " " + req.params.ad;
-            }
-        } else if (req.body.order_term) {
-            orderTerm = req.body.order_term;
+        // ORDER BY
+        let asc = req.query.asc || "";
+        let orderTerm = req.body?.order_term || req.query.orderBy || "";
+
+        if (orderTerm.trim() !== "") {
+            orderTerm = " ORDER BY " + orderTerm + " " + asc;
         }
 
         // Flip asc/desc for UI
