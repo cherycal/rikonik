@@ -243,7 +243,7 @@ exports.queryAPI = async (req, res) => {
         // }
 
         // --- WHERE clause ---
-        let whereTerm = "";
+        let whereTerm = req.query.where || "";
 
         // Support multiple legacy patterns
         if (req.params.where) {
