@@ -224,43 +224,13 @@ exports.queryAPI = async (req, res) => {
         let table = req.body.table || req.query.table || "MLBPlayers";
         table = table.replace(/'/g, "");
 
-        // // WHERE clause
-        // let whereTerm = req.query.where || "";
-        // let queryWhere = "";
-
-        // if (whereTerm.trim() !== "") {
-        //     // DO NOT strip quotes — Postgres needs them
-        //     // DO NOT decode URL encoding — Express already did
-        //     queryWhere = " WHERE " + whereTerm;
-        // }
-
-        // // ORDER BY
-        // let asc = req.query.asc || "";
-        // let orderTerm = req.body?.order_term || req.query.orderBy || "";
-
-        // if (orderTerm.trim() !== "") {
-        //     orderTerm = " ORDER BY " + orderTerm + " " + asc;
-        // }
-
-        // --- WHERE clause ---
+        // WHERE clause
         let whereTerm = req.query.where || "";
-
-        // Support multiple legacy patterns
-        if (req.params.where) {
-            console.log("req.params.where:", req.params.where);
-            whereTerm = decodeURIComponent(req.params.where);
-        } else if (req.body.where_term) {
-            console.log("req.body.where_term:", req.body.where_term);
-            whereTerm = req.body.where_term;
-        } else if (req.params[0]) {
-            console.log("req.params[0]:", req.params[0]);
-            whereTerm = req.params[0];
-        }
-        console.log("Final whereTerm:", whereTerm);
-
         let queryWhere = "";
-        if (whereTerm && whereTerm.trim() !== "") {
+
+        if (whereTerm.trim() !== "") {
             // DO NOT strip quotes — Postgres needs them
+            // DO NOT decode URL encoding — Express already did
             queryWhere = " WHERE " + whereTerm;
         }
 
@@ -272,6 +242,7 @@ exports.queryAPI = async (req, res) => {
             orderTerm = " ORDER BY " + orderTerm + " " + asc;
         }
 
+    
         // Flip asc/desc for UI
         let ascFlag = asc === "asc" ? "desc" : "asc";
 
