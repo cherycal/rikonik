@@ -225,7 +225,6 @@ exports.queryAPI = async (req, res) => {
         table = table.replace(/'/g, "");
 
         // WHERE clause
-        let whereTerm = req.query.where || "";
 
         let whereTerm = req.query.where || "";
         if (whereTerm.trim() !== "") {
