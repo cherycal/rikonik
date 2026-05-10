@@ -30,6 +30,12 @@ app.use(express.static(path.join(__dirname,'public')));
 app.engine('hbs', engine({extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
+// Register helpers BEFORE rendering any templates
+hbs.registerHelper("encode", function (str) {
+  return encodeURIComponent(str || "");
+});
+
+
 const routes = require('./server/routes/user');
 app.use('/', routes);
 
