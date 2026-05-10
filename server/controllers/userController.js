@@ -247,12 +247,16 @@ exports.queryAPI = async (req, res) => {
 
         // Support multiple legacy patterns
         if (req.params.where) {
+            console.log("req.params.where:", req.params.where);
             whereTerm = decodeURIComponent(req.params.where);
         } else if (req.body.where_term) {
+            console.log("req.body.where_term:", req.body.where_term);
             whereTerm = req.body.where_term;
         } else if (req.params[0]) {
+            console.log("req.params[0]:", req.params[0]);
             whereTerm = req.params[0];
         }
+        console.log("Final whereTerm:", whereTerm);
 
         let queryWhere = "";
         if (whereTerm && whereTerm.trim() !== "") {
