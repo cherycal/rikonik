@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const hbs = require("hbs");   // <-- ADD THIS
+const hbs = require("hbs");   // GOOD
 
 const app = express();
 
@@ -28,13 +28,13 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.engine('hbs', engine({ extname: '.hbs' }));
-app.set('view engine', 'hbs');
+app.engine('hbs', engine({ extname: '.hbs' }));  // GOOD
+app.set('view engine', 'hbs');                   // GOOD
 
 // Register helpers BEFORE rendering any templates
 hbs.registerHelper("encode", function (str) {
   return encodeURIComponent(str || "");
-});
+});                                              // GOOD
 
 const routes = require('./server/routes/user');
 app.use('/', routes);

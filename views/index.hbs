@@ -129,7 +129,7 @@
         {{#each rows.[0]}}
         <th style="height: 50px; border: 5px; background: black; color: grey;" class="header">
           <a style="color: grey;"
-            href="/api/query?table={{../table}}&columns={{../cols}}&where={{../whereTerm}}&orderBy={{@key}}&asc={{../ascFlag}}">
+            href="/api/query?table={{../table}}&columns={{../cols}}&where={{encode ../whereTerm}}&orderBy={{@key}}&asc={{../ascFlag}}">
             {{@key}}
           </a>
         </th>
