@@ -10,7 +10,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(40, 41, 26, 0.7); /* adjust opacity here */
+    background: rgba(34, 34, 22, 0.8); /* adjust opacity here */
     pointer-events: none;
     z-index: -1;
 }
@@ -85,7 +85,7 @@ table td:nth-child(1),
 table th:nth-child(1),
 table td:nth-child(2),
 table th:nth-child(2) {
-    background-color: rgba(40, 41, 26, 0.7); /* adjust this by hand */
+    background-color: rgba(34, 34, 22, 0.8); /* adjust this by hand */
 }
 
 
