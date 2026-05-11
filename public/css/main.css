@@ -1,7 +1,23 @@
 /* --------------------------------------------------
    GLOBAL BODY STYLING
 -------------------------------------------------- */
+
+/* Dark overlay to reduce background visibility */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* adjust opacity here */
+    pointer-events: none;
+    z-index: -1;
+}
+
+
 body {
+    position: relative;
     background-image: url("/img/dist_dark.jpg");
     background-position: bottom;
     background-repeat: no-repeat;
@@ -12,6 +28,7 @@ body {
     font-size: large;
     color: darkgoldenrod;
 }
+
 
 /* --------------------------------------------------
    SCROLLBARS (GLOBAL)
