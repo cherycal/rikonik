@@ -10,7 +10,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85); /* adjust opacity here */
+    background: rgba(40, 41, 26, 0.7); /* adjust opacity here */
     pointer-events: none;
     z-index: -1;
 }
@@ -76,6 +76,18 @@ th {
 th, td {
     padding: 10px;
 }
+
+/* --------------------------------------------------
+   STICKY COLUMN BACKGROUNDS
+   (keeps frozen columns matching table background)
+-------------------------------------------------- */
+table td:nth-child(1),
+table th:nth-child(1),
+table td:nth-child(2),
+table th:nth-child(2) {
+    background-color: rgba(40, 41, 26, 0.7); /* adjust this by hand */
+}
+
 
 /* --------------------------------------------------
    DROPDOWN MENU (Bootstrap override)
