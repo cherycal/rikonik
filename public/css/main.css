@@ -144,7 +144,7 @@ table th:nth-child(1) {
     background: black;
 }
 
-/* Freeze column 2 — JS will set the left offset dynamically */
+/* Freeze column 2 — JS sets left offset */
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
@@ -155,9 +155,9 @@ table th:nth-child(2) {
 /* Make frozen column headers ALSO sticky at the top */
 table th:nth-child(1),
 table th:nth-child(2) {
-    top: 0;              /* keep them at the top while scrolling down */
-    z-index: 10;         /* above frozen cells + body cells */
-    background: black;   /* prevent bleed-through */
+    top: 0;
+    z-index: 10;
+    background: black;
 }
 
 
