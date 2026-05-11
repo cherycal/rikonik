@@ -56,21 +56,48 @@ body {
     background-color: #1c1c1d;
 }
 
-/* --------------------------------------------------
-   SQL MESSAGE BAR
--------------------------------------------------- */
-.sql-message {
-    background-color: rgba(0, 0, 0, 0.9); /* fully opaque dark background */
+/* Wrap all three elements so they share one solid background */
+.sticky-stack {
+    background-color: rgba(0, 0, 0, 0.95); /* prevents dist-dark.jpg bleed-through */
+    border-radius: 4px; /* optional, looks clean */
+    overflow: hidden;   /* forces edges to touch with no gaps */
+}
+
+/* Banner */
+.banner {
+    background-color: rgba(0, 0, 0, 1);
     padding: 10px 15px;
-    margin-bottom: 15px;
-    border-radius: 4px; /* optional, looks nice */
+    margin: 0;
+    border-bottom: 1px solid #111; /* subtle separator */
 }
 
-.sql-message h2 {
-    color: #e0e0e0; /* brighter than your current lightgrey */
-    margin: 0;      /* removes weird spacing */
+/* SQL message */
+.sql-message {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 8px 12px;
+    margin: 0; /* removes the gap you were seeing */
+    border-bottom: 1px solid #111; /* optional separator */
 }
 
+/* Scrollable table container */
+.table-wrapper {
+    max-height: 300px; /* or whatever height you want */
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    margin: 0;
+}
+
+/* Table itself */
+.table-wrapper table {
+    width: 100%;
+    border-collapse: collapse; /* removes internal gaps */
+}
+
+.table-wrapper td,
+.table-wrapper th {
+    padding: 8px 10px;
+    border-bottom: 1px solid #222;
+}
 
 /* --------------------------------------------------
    TABLE STYLING
