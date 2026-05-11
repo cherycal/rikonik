@@ -1,132 +1,79 @@
 /* --------------------------------------------------
-   GLOBAL BODY STYLING
+   GLOBAL
 -------------------------------------------------- */
-
-
-/* Dark overlay to reduce background visibility */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(29, 29, 25, 0.9); /* adjust opacity here */
-    pointer-events: none;
-    z-index: -1;
-}
-
 
 body {
-    position: relative;
-    background-image: url("/img/dist_dark.jpg");
-    background-position: bottom;
-    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    background-image: url("dist_dark.jpg");
     background-size: cover;
     background-attachment: fixed;
-	
-    background-color: #222200;
-    font-size: large;
-    color: darkgoldenrod;
-
-	padding-top: 50px; /* adjust to match your banner height */
+    background-position: center;
+    color: #ddd;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* Optional: keep Bootstrap navbar visually clean over background */
+.navbar {
+    background-color: rgba(0, 0, 0, 0.95) !important;
+}
 
 /* --------------------------------------------------
-   SCROLLBARS (GLOBAL)
+   STICKY STACK WRAPPER
+   (banner + sql-message + table)
 -------------------------------------------------- */
-::-webkit-scrollbar {
-    width: 12px;
-    background-color: #262222;
-}
 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #1e1e1c;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Optional: darker variant for specific containers */
-.scrollbar-primary::-webkit-scrollbar {
-    background-color: #211f1f;
-}
-
-.scrollbar-primary::-webkit-scrollbar-thumb {
-    background-color: #1c1c1d;
-}
-
-/* Wrap all three elements so they share one solid background */
 .sticky-stack {
-    background-color: rgba(0, 0, 0, 0.95); /* prevents dist-dark.jpg bleed-through */
-    border-radius: 4px; /* optional, looks clean */
-    overflow: hidden;   /* forces edges to touch with no gaps */
-}
-
-/* Banner */
-.banner {
-    background-color: rgba(0, 0, 0, 1);
-    padding: 10px 15px;
-    margin: 0;
-    border-bottom: 1px solid #111; /* subtle separator */
-}
-
-/* SQL message */
-.sql-message {
-    min-height: 40px;     /* keeps desktop looking the same */
-    height: auto;         /* allows expansion on mobile */
-    padding: 8px 12px;
-    overflow: visible;    /* ensures no clipping */
-}
-
-
-/* Scrollable table container */
-.table-wrapper {
-    max-height: 300px; /* or whatever height you want */
-    overflow-y: auto;
-    background-color: rgba(0, 0, 0, 0.9);
-    margin: 0;
-}
-
-/* Table itself */
-.table-wrapper table {
-    width: 100%;
-    border-collapse: collapse; /* removes internal gaps */
-}
-
-.table-wrapper td,
-.table-wrapper th {
-    padding: 8px 10px;
-    border-bottom: 1px solid #222;
+    background-color: rgba(0, 0, 0, 0.95);
+    border-radius: 4px;
+    overflow: hidden; /* prevents bleed-through at edges */
 }
 
 /* --------------------------------------------------
-   TABLE STYLING
+   SQL MESSAGE
 -------------------------------------------------- */
-table {
-    border-collapse: collapse;
-    opacity: 0.9;
-    margin: 0 auto; /* center table */
+
+.sql-message {
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 8px 12px;
+    margin: 0;
+    min-height: 40px;  /* keeps desktop look */
+    height: auto;      /* prevents truncation on mobile */
+    overflow: visible;
 }
 
-table, th, td {
-    border: 2px solid #111;
+/* --------------------------------------------------
+   TABLE BASE STYLES
+-------------------------------------------------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: transparent;
+}
+
+table th,
+table td {
+    border-color: rgb(54, 59, 50);
+    font-size: small;
     white-space: nowrap;
 }
 
-th {
-    font-family: Courier, monospace;
-    color: grey;
-    background-color: #220000;
+/* Header row sticky at top */
+table thead {
+    position: sticky;
+    top: 0;
+    z-index: 15;
+    background: black;
 }
 
-th, td {
-    padding: 10px;
+table thead th {
+    background: black;
+    color: grey;
 }
 
 /* --------------------------------------------------
-   STICKY COLUMN BACKGROUNDS
-   (keeps frozen columns matching table background)
+   FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
 /* Freeze column 1 */
@@ -138,7 +85,7 @@ table th:nth-child(1) {
     background: black;
 }
 
-/* Freeze column 2 — JS sets left offset */
+/* Freeze column 2 — JS sets left offset dynamically */
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
@@ -150,43 +97,62 @@ table th:nth-child(2) {
 table th:nth-child(1),
 table th:nth-child(2) {
     top: 0;
-    z-index: 10;
+    z-index: 10; /* above body cells */
     background: black;
 }
 
+/* Optional: subtle divider between frozen and scrollable columns */
+table td:nth-child(2),
+table th:nth-child(2) {
+    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8);
+}
 
-/* Scrollbar track */
+/* --------------------------------------------------
+   SCROLLBAR STYLING
+   (applies to div.scrollbar ...)
+-------------------------------------------------- */
+
+.scrollbar {
+    scrollbar-color: #444 #111; /* Firefox */
+    scrollbar-width: thin;
+}
+
+/* WebKit-based browsers */
 .scrollbar::-webkit-scrollbar {
     width: 12px;
     height: 12px;
 }
 
-/* Track background */
 .scrollbar::-webkit-scrollbar-track {
-    background: #111;   /* dark track */
+    background: #111;
 }
 
-/* Thumb */
 .scrollbar::-webkit-scrollbar-thumb {
-    background: #444;   /* lighter thumb */
+    background: #444;
     border-radius: 6px;
-    border: 2px solid #111; /* creates contrast */
+    border: 2px solid #111; /* contrast against track */
 }
 
-/* Thumb hover */
 .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
 
-/* Bottom-right corner where scrollbars meet */
+/* Bottom-right corner where vertical & horizontal scrollbars meet */
 .scrollbar::-webkit-scrollbar-corner {
-    background: #111;   /* match track color */
+    background: #111;
 }
 
 /* --------------------------------------------------
-   DROPDOWN MENU (Bootstrap override)
+   SMALL TWEAKS
 -------------------------------------------------- */
-.dropdown-menu {
-    max-height: 70vh;
-    overflow-y: auto;
+
+/* Make table text color consistent with your theme */
+table tbody td {
+    color: rgb(161, 159, 159);
+}
+
+/* Ensure links in headers stay visible */
+table thead th a {
+    color: grey;
+    text-decoration: none;
 }
