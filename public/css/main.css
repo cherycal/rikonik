@@ -24,10 +24,12 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-
+	
     background-color: #222200;
     font-size: large;
     color: darkgoldenrod;
+
+	padding-top: 80px; /* adjust to match your banner height */
 }
 
 
