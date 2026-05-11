@@ -57,6 +57,22 @@ body {
 }
 
 /* --------------------------------------------------
+   SQL MESSAGE BAR
+-------------------------------------------------- */
+.sql-message {
+    background-color: rgba(0, 0, 0, 0.9); /* fully opaque dark background */
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 4px; /* optional, looks nice */
+}
+
+.sql-message h2 {
+    color: #e0e0e0; /* brighter than your current lightgrey */
+    margin: 0;      /* removes weird spacing */
+}
+
+
+/* --------------------------------------------------
    TABLE STYLING
 -------------------------------------------------- */
 table {
