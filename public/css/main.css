@@ -26,20 +26,20 @@ body {
 .sticky-stack {
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 4px;
-    overflow: hidden; /* prevents bleed-through at edges */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
-
-/* --------------------------------------------------
-   SQL MESSAGE
--------------------------------------------------- */
 
 .sql-message {
     background-color: rgba(0, 0, 0, 0.9);
-    padding: 8px 12px;
+    padding: 10px 15px;
     margin: 0;
-    min-height: 40px;  /* keeps desktop look */
-    height: auto;      /* prevents truncation on mobile */
+    min-height: 40px;
+    height: auto;
     overflow: visible;
+    position: relative;
+    z-index: 30;
 }
 
 /* --------------------------------------------------
