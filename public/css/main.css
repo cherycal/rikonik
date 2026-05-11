@@ -2,6 +2,7 @@
    GLOBAL BODY STYLING
 -------------------------------------------------- */
 
+
 /* Dark overlay to reduce background visibility */
 body::before {
     content: "";
@@ -10,7 +11,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(41, 41, 32, 0.85); /* adjust opacity here */
+    background: rgba(29, 29, 25, 0.9); /* adjust opacity here */
     pointer-events: none;
     z-index: -1;
 }
@@ -85,7 +86,7 @@ table td:nth-child(1),
 table th:nth-child(1),
 table td:nth-child(2),
 table th:nth-child(2) {
-    background-color: rgba(41, 41, 32, 0.85); /* adjust this by hand */
+    background-color: rgba(29, 29, 25, 0.9); /* adjust this by hand */
 }
 
 
