@@ -135,6 +135,25 @@ table th:nth-child(2) {
     background-color: rgba(29, 29, 25, 0.9); /* adjust this by hand */
 }
 
+/* Freeze column 1 */
+table td:nth-child(1),
+table th:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: black;
+}
+
+/* Freeze column 2 — JS will set the left offset dynamically */
+table td:nth-child(2),
+table th:nth-child(2) {
+    position: sticky;
+    z-index: 5;
+    background: black;
+}
+
+
+
 /* Scrollbar track */
 .scrollbar::-webkit-scrollbar {
     width: 12px;

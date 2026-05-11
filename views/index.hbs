@@ -154,4 +154,29 @@
     </table>
   </div>
 
+  <!-- ⭐ INSERT THE SCRIPT RIGHT HERE ⭐ -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const table = document.querySelector("table");
+      if (!table) return;
+
+      const firstColCells = table.querySelectorAll("td:nth-child(1), th:nth-child(1)");
+      const secondColCells = table.querySelectorAll("td:nth-child(2), th:nth-child(2)");
+
+      function updateOffsets() {
+        if (firstColCells.length === 0) return;
+
+        const firstColWidth = firstColCells[0].offsetWidth;
+
+        secondColCells.forEach(cell => {
+          cell.style.left = firstColWidth + "px";
+        });
+      }
+
+      updateOffsets();
+      window.addEventListener("resize", updateOffsets);
+    });
+  </script>
+  <!-- END OF INSERTED SCRIPT -->
+
 </div>
