@@ -81,29 +81,17 @@ table td {
 table thead {
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 15;
     background: black;
-
 }
 
 table thead th {
     background: black;
     color: grey;
-	background-color: black !important;
-    border-bottom: 1px solid black !important;
 }
 
 thead th {
     background-color: black !important;
-}
-
-tbody {
-    position: relative;
-    z-index: 1;
-}
-
-table tbody td {
-    border-top: 1px solid black !important;
 }
 
 
