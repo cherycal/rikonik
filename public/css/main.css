@@ -63,7 +63,7 @@ table {
 }
 
 tbody {
-  transform: translateY(5px);
+  transform: translateY(60px);
 }
 
 table th,
