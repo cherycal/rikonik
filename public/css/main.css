@@ -102,6 +102,9 @@ tbody {
     z-index: 1;
 }
 
+table tbody td {
+    border-top: 1px solid black !important;
+}
 
 
 /* --------------------------------------------------
