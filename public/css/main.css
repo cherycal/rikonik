@@ -102,6 +102,7 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
+	left: -1px; /* slight overlap to hide border */
     z-index: 5;
     background: black;
 }
