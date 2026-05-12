@@ -59,7 +59,7 @@ table {
     width: 100%;
     border-collapse: separate;
     background-color: transparent;
-	border-spacing: 0;
+	border-spacing: 0 5px;
 }
 
 table th,
@@ -88,21 +88,27 @@ table thead th {
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
-/* Column 1 (Name) */
-th:nth-child(1), td:nth-child(1) {
-  position: sticky;
-  left: 0;
-  z-index: 3;
-  background-color: black; /* Match your table bg */
+/* Freeze column 1 */
+table td:nth-child(1),
+table th:nth-child(1) {
+	position: sticky;
+    left: -1px; /* slight overlap to hide border */
+	left: -1px; /* slight overlap to hide border */
+  /* Creates a 1px solid 'shield' on the right side of the column */
+  	box-shadow: -5px 0 0 -5px #1a1a1a; 
+  	z-index: 3;
+    background: black;
+	background-color: black; /* or your dark theme color */
 }
 
-/* Column 2 (Team) */
-th:nth-child(2), td:nth-child(2) {
-  position: sticky;
-  /* Use the variable, defaulting to a guess (150px) if JS hasn't run yet */
-  left: calc(var(--col1-width, 150px) - 2px); 
-  z-index: 2;
-  background-color: black;
+/* Freeze column 2 — JS sets left offset dynamically */
+table td:nth-child(2),
+table th:nth-child(2) {
+    position: sticky;
+	left: -10px; /* slight overlap to hide border */
+	box-shadow: -10px 0 0 -10px #1a1a1a; 
+    z-index: 2;
+    background: black;
 }
 
 /* Make frozen column headers ALSO sticky at the top */
