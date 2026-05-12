@@ -95,6 +95,7 @@ th:nth-child(1), td:nth-child(1) {
   width: var(--col1-width);
   min-width: var(--col1-width);
   z-index: 3;
+   background: black;
   background-color: #1a1a1a;
 }
 
@@ -104,6 +105,7 @@ th:nth-child(2), td:nth-child(2) {
   /* Pulls it 1px over the edge of Column 1 */
   left: calc(var(--col1-width) - 1px); 
   z-index: 2;
+   background: black;
   background-color: #1a1a1a;
 }
 
