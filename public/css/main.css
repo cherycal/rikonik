@@ -24,6 +24,7 @@ body {
 -------------------------------------------------- */
 
 .sticky-stack {
+	margin-top: var(--bs-navbar-height);
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 4px;
     overflow: hidden;

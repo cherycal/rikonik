@@ -1,99 +1,185 @@
-  <a class="navbar-brand" href="/">DB: {{dbname}}.</a>
+{{!-- SUCCESS MESSAGE WHEN REMOVING USER --}}
+{{#if removedUser}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  User has been removed.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+{{!-- FIXED NAVBAR (NO WRAPPER DIV) --}}
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark py-3">
+  <div class="container-fluid">
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <a class="navbar-brand" href="/">DB: {{dbname}}.</a>
 
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="/">Home</a>
-      </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          Tables
-        </a>
-        <ul class="dropdown-menu"
-          style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;">
-          <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
-              href="/showTables">List all tables</a></li>
-          <div class="dropdown-divider"></div>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
 
-          {{#each tableList}}
-          <li><a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
-              href="/queryTable/{{Tables_in_DB}}">{{Tables_in_DB}}</a></li>
-          <div class="dropdown-divider"></div>
-          {{/each}}
-        </ul>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-          aria-expanded="false">
-          Schema
-        </a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Tables
+          </a>
 
-        <ul class="dropdown-menu"
-          style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;">
+          <ul class="dropdown-menu"
+            style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;">
 
-          <li>
-            <a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
-              href="/dbselect/public">
-              public
-            </a>
-          </li>
+            <li>
+              <a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                href="/showTables">List all tables</a>
+            </li>
 
-        </ul>
-      </li>
+            <div class="dropdown-divider"></div>
 
-    </ul>
+            {{#each tableList}}
+            <li>
+              <a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                href="/queryTable/{{Tables_in_DB}}">{{Tables_in_DB}}</a>
+            </li>
+            <div class="dropdown-divider"></div>
+            {{/each}}
 
-    <!-- QUERY FORM -->
-    <form class="d-flex flex-wrap gap-2" id="queryForm" method="POST" action="/" novalidate>
+          </ul>
+        </li>
 
-      <!-- SELECT -->
-      <textarea class="form-control" style="background-color: black; font-size:small; width: 200px; color: white;"
-        name="columns" placeholder="select">{{cols}}</textarea>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Schema
+          </a>
 
-      <!-- FROM -->
-      <input class="form-control" style="background-color: black; font-size:small; width: 200px; color: white;"
-        type="text" name="table_name" placeholder="from" value="{{table}}" />
+          <ul class="dropdown-menu"
+            style="background-color: rgb(44, 44, 35); color: grey; max-height: 60vh; overflow:auto;">
+            <li>
+              <a class="dropdown-item" style="background-color: rgb(44, 44, 35); color: grey;"
+                href="/dbselect/public">
+                public
+              </a>
+            </li>
+          </ul>
+        </li>
 
-      <!-- WHERE -->
-      <textarea class="form-control"
-        style="background-color: black; font-size:small; height: 70px; width: 480px; color: white;"
-        name="where_term" placeholder="where">{{whereTerm}}</textarea>
+      </ul>
 
-      <!-- ORDER BY -->
-      <textarea class="form-control" style="background-color: black; font-size:small; width: 200px; color: white;"
-        name="order_term" placeholder="order by">{{orderTerm}}</textarea>
+      {{!-- QUERY FORM --}}
+      <form class="d-flex flex-wrap gap-2" id="queryForm" method="POST" action="/" novalidate>
 
-      <button class="btn btn-outline-light" type="submit">Search</button>
-    </form>
+        <textarea class="form-control"
+          style="background-color: black; font-size:small; width: 200px; color: white;"
+          name="columns" placeholder="select">{{cols}}</textarea>
 
-    <!-- ENTER / SHIFT+ENTER BEHAVIOR -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.getElementById("queryForm");
+        <input class="form-control"
+          style="background-color: black; font-size:small; width: 200px; color: white;"
+          type="text" name="table_name" placeholder="from" value="{{table}}" />
 
-        form.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") {
-            if (e.shiftKey) return; // newline
-            e.preventDefault();
-            form.submit();
-          }
+        <textarea class="form-control"
+          style="background-color: black; font-size:small; height: 70px; width: 480px; color: white;"
+          name="where_term" placeholder="where">{{whereTerm}}</textarea>
+
+        <textarea class="form-control"
+          style="background-color: black; font-size:small; width: 200px; color: white;"
+          name="order_term" placeholder="order by">{{orderTerm}}</textarea>
+
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
+
+      {{!-- ENTER / SHIFT+ENTER BEHAVIOR --}}
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const form = document.getElementById("queryForm");
+
+          form.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+              if (e.shiftKey) return;
+              e.preventDefault();
+              form.submit();
+            }
+          });
         });
-      });
-    </script>
+      </script>
 
+    </div>
   </div>
+</nav>
+
+{{!-- MAIN CONTENT WRAPPER BELOW NAVBAR --}}
+<div class="sticky-stack" style="margin-top: 90px;">
+
+  {{!-- SQL MESSAGE --}}
+  <div class="sql-message">
+    <h2 style="font-size:medium; color: lightgrey; font-family: 'Courier New', Courier, monospace;">
+      {{message}}
+    </h2>
+  </div>
+
+  {{!-- SCROLLABLE TABLE --}}
+  <div style="overflow-y: auto; overflow-x: auto; height: calc(100vh - 240px);" class="scrollbar scrollbar-primary">
+
+    <table class="table table-bordered sortable" style="border: rgb(54, 59, 50); min-width: 600px;">
+
+      <thead style="position: sticky; top: 0; background: black;">
+        {{#each rows.[0]}}
+        <th style="height: 50px; border: 5px; background: black; color: grey;" class="header">
+          <a style="color: grey;"
+            href="/api/query?table={{../table}}&columns={{../cols}}&where={{encode ../whereTerm}}&orderBy={{@key}}&asc={{../ascFlag}}">
+            {{@key}}
+          </a>
+        </th>
+        {{/each}}
+      </thead>
+
+      <tbody>
+        {{#each rows}}
+        <tr>
+          {{#each this}}
+          <td style="color: rgb(161, 159, 159); font-size:small; white-space: nowrap;">
+            {{this}}
+          </td>
+          {{/each}}
+        </tr>
+        {{/each}}
+      </tbody>
+
+    </table>
+  </div>
+
+  {{!-- COLUMN OFFSET SCRIPT --}}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const table = document.querySelector("table");
+      if (!table) return;
+
+      const firstColCells = table.querySelectorAll("td:nth-child(1), th:nth-child(1)");
+      const secondColCells = table.querySelectorAll("td:nth-child(2), th:nth-child(2)");
+
+      function updateOffsets() {
+        if (firstColCells.length === 0) return;
+
+        const firstColWidth = firstColCells[0].offsetWidth;
+
+        secondColCells.forEach(cell => {
+          cell.style.left = firstColWidth + "px";
+        });
+      }
+
+      updateOffsets();
+      window.addEventListener("resize", updateOffsets);
+    });
+  </script>
+
 </div>
