@@ -254,7 +254,7 @@ exports.queryAPI = async (req, res) => {
             FROM ${schema}.${table}
             ${queryWhere}
             ${orderTerm}
-            LIMIT 2000
+            LIMIT 200
         `;
 
         console.log("queryAPI SQL:", sql);
