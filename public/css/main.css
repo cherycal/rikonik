@@ -171,6 +171,6 @@ table thead th a {
 @media screen and (max-width: 600px) {
     table th,
     table td {
-        font-size: 10px !important;
+        font-size: 11px !important;
     }
 }
