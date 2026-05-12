@@ -340,7 +340,7 @@ exports.queryTable = async (req, res) => {
             FROM ${schema}.${table}
             ${queryWhere}
             ${orderTerm}
-            LIMIT 2000
+            LIMIT 200
         `;
 
         console.log("queryTable SQL:", sql);
