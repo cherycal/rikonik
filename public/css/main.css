@@ -102,6 +102,10 @@ thead th {
   border-bottom: 2px solid #333; /* Manually add the bottom border back */
 }
 
+th {
+  background-clip: padding-box;
+}
+
 /* --------------------------------------------------
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
