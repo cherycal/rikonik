@@ -47,11 +47,12 @@ body {
     border-bottom: 1px solid #111; /* closes vertical seam */
 }
 
-/* Scrollable table wrapper (2nd child of sticky-stack) */
-.sticky-stack > div:nth-child(2) {
+/* The actual scroll container */
+.sticky-stack .scrollbar {
     background-color: rgba(0, 0, 0, 0.95);
-    border-top: 1px solid #111; /* meets sql-message border */
+    border-top: 1px solid #111;
 }
+
 
 
 
