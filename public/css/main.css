@@ -59,7 +59,7 @@ table {
     width: 100%;
     border-collapse: separate;
     background-color: transparent;
-	border-spacing: 0 5px;
+	border-spacing: 0;
 }
 
 table th,
@@ -88,25 +88,21 @@ table thead th {
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
-/* Column 1 */
+/* Column 1 (Name) */
 th:nth-child(1), td:nth-child(1) {
   position: sticky;
   left: 0;
-  width: var(--col1-width);
-  min-width: var(--col1-width);
   z-index: 3;
-   background: black;
-  background-color: #1a1a1a;
+  background-color: black; /* Match your table bg */
 }
 
-/* Column 2 (The Overlap) */
+/* Column 2 (Team) */
 th:nth-child(2), td:nth-child(2) {
   position: sticky;
-  /* Pulls it 1px over the edge of Column 1 */
-  left: calc(var(--col1-width) - 1px); 
+  /* Use the variable, defaulting to a guess (150px) if JS hasn't run yet */
+  left: calc(var(--col1-width, 150px) - 2px); 
   z-index: 2;
-   background: black;
-  background-color: #1a1a1a;
+  background-color: black;
 }
 
 /* Make frozen column headers ALSO sticky at the top */
