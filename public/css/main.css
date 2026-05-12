@@ -15,7 +15,7 @@ body {
 
 /* Optional: keep Bootstrap navbar visually clean over background */
 .navbar {
-    background-color: rgba(22, 22, 19, 0.95) !important;
+    background-color: rgba(0, 0, 0, 0.95) !important;
 }
 
 /* --------------------------------------------------
@@ -62,6 +62,9 @@ table {
 	border-spacing: 0 5px;
 }
 
+tbody {
+  transform: translateY(10px);
+}
 
 table th,
 table td {
@@ -95,7 +98,7 @@ table th:nth-child(1) {
     position: sticky;
     left: 0;
     z-index: 4;
-    background: rgba(28, 28, 27, 0.95);
+    background: black;
 	background-color: black; /* or your dark theme color */
 }
 
