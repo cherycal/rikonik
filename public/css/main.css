@@ -47,6 +47,7 @@ body {
 
 .sticky-stack > div:nth-child(2) {
   background-color: rgba(22, 22, 19, 0.95);
+  left: 2px; /* slight left offset to cover sql-message border */
   border-top: 1px solid #111; /* meets the sql-message border */
 }
 
@@ -92,7 +93,6 @@ table thead th {
 table td:nth-child(1),
 table th:nth-child(1) {
     position: sticky;
-    left: -2px;
     z-index: 2;
     background: black;
 	background-color: black; /* or your dark theme color */
@@ -102,7 +102,6 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-	left: 2px; /* slight overlap to hide border */
     z-index: 1;
     background: black;
 }
@@ -111,7 +110,6 @@ table th:nth-child(2) {
 table th:nth-child(1),
 table th:nth-child(2) {
     top: 0;
-	left: 2px;
     z-index: 1; /* above body cells */
     background: black;
 }
@@ -120,7 +118,6 @@ table th:nth-child(2) {
 table td:nth-child(2),
 table th:nth-child(2) {
     box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8);
-	left: 2px;
 	background-color: black; /* or your dark theme color */
 }
 
