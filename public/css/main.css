@@ -24,7 +24,7 @@ body {
 -------------------------------------------------- */
 
 .sticky-stack {
-	margin-top: var(--bs-navbar-height) + 10px; /* space below navbar */
+	margin-top: var(--bs-navbar-height) + 5px; /* space below navbar */
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 4px;
     overflow: hidden;
@@ -36,6 +36,7 @@ body {
     background-color: rgba(0, 0, 0, 0.9);
     padding: 10px 15px;
     margin: 0;
+
     min-height: 60px;
     height: auto;
     overflow: visible;
@@ -69,6 +70,7 @@ table td {
 
 /* Header row sticky at top */
 table thead {
+	min-height: 60px;
     position: sticky;
     top: 0;
     z-index: 15;
@@ -76,6 +78,7 @@ table thead {
 }
 
 table thead th {
+	min-height: 60px;
     background: black;
     color: grey;
 }
