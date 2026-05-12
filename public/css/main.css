@@ -17,14 +17,13 @@ body {
 .navbar {
     background-color: rgba(0, 0, 0, 0.95) !important;
 }
-
 /* --------------------------------------------------
    STICKY STACK WRAPPER
    (banner + sql-message + table)
 -------------------------------------------------- */
 
 .sticky-stack {
-	margin-top: var(--bs-navbar-height);
+    margin-top: calc(var(--bs-navbar-height) + 10px);
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 4px;
     overflow: hidden;
@@ -32,8 +31,12 @@ body {
     flex-direction: column;
 }
 
+/* --------------------------------------------------
+   SQL MESSAGE
+-------------------------------------------------- */
+
 .sql-message {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     padding: 10px 15px;
     margin: 0;
     min-height: 40px;
@@ -41,6 +44,13 @@ body {
     overflow: visible;
     position: relative;
     z-index: 30;
+    border-bottom: 1px solid #111; /* closes vertical seam */
+}
+
+/* Scrollable table wrapper (2nd child of sticky-stack) */
+.sticky-stack > div:nth-child(2) {
+    background-color: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid #111; /* meets sql-message border */
 }
 
 /* --------------------------------------------------
@@ -49,8 +59,9 @@ body {
 
 table {
     width: 100%;
-    border-collapse: collapse;
-    background-color: transparent;
+    border-collapse: separate; /* prevents micro-gaps */
+    border-spacing: 0;         /* eliminates hairline seams */
+    background-color: black;
 }
 
 table th,
@@ -58,6 +69,7 @@ table td {
     border-color: rgb(54, 59, 50);
     font-size: small;
     white-space: nowrap;
+    background-color: black; /* prevents bleed-through */
 }
 
 /* Header row sticky at top */
@@ -77,40 +89,34 @@ table thead th {
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
-/* Freeze column 1 */
+/* Column 1 */
 table td:nth-child(1),
 table th:nth-child(1) {
     position: sticky;
     left: 0;
-    z-index: 5;
-    background: black;
+    z-index: 4; /* sits above column 2 */
+    background-color: black;
 }
 
-/* Freeze column 2 — JS sets left offset dynamically */
+/* Column 2 (JS sets left offset) */
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-    z-index: 5;
-    background: black;
+    z-index: 3;
+    background-color: black;
+    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8); /* closes horizontal seam */
 }
 
-/* Make frozen column headers ALSO sticky at the top */
+/* Frozen column headers also sticky vertically */
 table th:nth-child(1),
 table th:nth-child(2) {
     top: 0;
-    z-index: 10; /* above body cells */
+    z-index: 10;
     background: black;
-}
-
-/* Optional: subtle divider between frozen and scrollable columns */
-table td:nth-child(2),
-table th:nth-child(2) {
-    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8);
 }
 
 /* --------------------------------------------------
    SCROLLBAR STYLING
-   (applies to div.scrollbar ...)
 -------------------------------------------------- */
 
 .scrollbar {
@@ -131,14 +137,13 @@ table th:nth-child(2) {
 .scrollbar::-webkit-scrollbar-thumb {
     background: #444;
     border-radius: 6px;
-    border: 2px solid #111; /* contrast against track */
+    border: 2px solid #111;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
 
-/* Bottom-right corner where vertical & horizontal scrollbars meet */
 .scrollbar::-webkit-scrollbar-corner {
     background: #111;
 }
@@ -147,12 +152,10 @@ table th:nth-child(2) {
    SMALL TWEAKS
 -------------------------------------------------- */
 
-/* Make table text color consistent with your theme */
 table tbody td {
     color: rgb(161, 159, 159);
 }
 
-/* Ensure links in headers stay visible */
 table thead th a {
     color: grey;
     text-decoration: none;
