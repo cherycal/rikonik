@@ -44,13 +44,12 @@ body {
     overflow: visible;
     position: relative;
     z-index: 30;
-    border-bottom: 4px solid #111; /* closes vertical seam */
 }
 
 /* Scrollable table wrapper (2nd child of sticky-stack) */
 .sticky-stack > div:nth-child(2) {
     background-color: rgba(0, 0, 0, 0.95);
-    border-top: 1px solid #111; /* meets sql-message border */
+	overflow: auto;
 }
 
 /* --------------------------------------------------
