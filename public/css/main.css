@@ -89,6 +89,8 @@ table thead {
 table thead th {
     background: black;
     color: grey;
+	background-color: black !important;
+    border-bottom: 1px solid black !important;
 }
 
 thead th {
