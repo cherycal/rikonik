@@ -88,27 +88,23 @@ table thead th {
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
-/* Freeze column 1 */
-table td:nth-child(1),
-table th:nth-child(1) {
-	position: sticky;
-    left: -1px; /* slight overlap to hide border */
-	right: 10px; /* slight overlap to hide border */
-  /* Creates a 1px solid 'shield' on the right side of the column */
-  	box-shadow: -5px 0 0 -5px #1a1a1a; 
-  	z-index: 3;
-    background: black;
-	background-color: black; /* or your dark theme color */
+/* Column 1 */
+th:nth-child(1), td:nth-child(1) {
+  position: sticky;
+  left: 0;
+  width: var(--col1-width);
+  min-width: var(--col1-width);
+  z-index: 3;
+  background-color: #1a1a1a;
 }
 
-/* Freeze column 2 — JS sets left offset dynamically */
-table td:nth-child(2),
-table th:nth-child(2) {
-    position: sticky;
-	box-shadow: -10px 0 0 -10px #1a1a1a; 
-    z-index: 2;
-    background: black;
-	background-color: black; /* or your dark theme color */
+/* Column 2 (The Overlap) */
+th:nth-child(2), td:nth-child(2) {
+  position: sticky;
+  /* Pulls it 1px over the edge of Column 1 */
+  left: calc(var(--col1-width) - 1px); 
+  z-index: 2;
+  background-color: #1a1a1a;
 }
 
 /* Make frozen column headers ALSO sticky at the top */
