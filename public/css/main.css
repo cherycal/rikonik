@@ -57,8 +57,13 @@ body {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
     background-color: transparent;
+	border-spacing: 0 5px;
+}
+
+tbody {
+  transform: translateY(5px);
 }
 
 table th,
