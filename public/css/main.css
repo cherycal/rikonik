@@ -69,13 +69,20 @@ table {
 
 table th,
 table td {
-	background-color: black !important;
+    background-color: black !important;
     position: relative;
     z-index: 1;
+    white-space: nowrap;
+
+    /* bleed fix */
+    height: 32px !important;
+    line-height: 32px !important;
+
+    /* optional styling */
     border-color: rgb(54, 59, 50);
     font-size: small;
-    white-space: nowrap;
 }
+
 
 /* Header row sticky at top */
 table thead {
@@ -87,15 +94,11 @@ table thead {
 }
 
 table thead th {
-    background: black;
+    background-color: black !important;
     color: grey;
-	background-color: black !important;
     border-bottom: 1px solid black !important;
 }
 
-thead th {
-    background-color: black !important;
-}
 
 tbody {
     position: relative;
