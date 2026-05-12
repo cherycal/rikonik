@@ -166,3 +166,15 @@ table thead th a {
     color: grey;
     text-decoration: none;
 }
+
+/* Mobile Only Styles */
+@media screen and (max-width: 600px) {
+  table {
+    font-size: 11px; /* Adjust this number to your preference */
+  }
+
+  /* Optional: Reduce padding to save even more horizontal space */
+  th, td {
+    padding: 4px 2px; 
+  }
+}
