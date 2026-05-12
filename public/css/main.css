@@ -62,9 +62,6 @@ table {
 	border-spacing: 0 5px;
 }
 
-tbody {
-  transform: translateY(10px);
-}
 
 table th,
 table td {
@@ -98,7 +95,7 @@ table th:nth-child(1) {
     position: sticky;
     left: 0;
     z-index: 4;
-    background: black;
+    background: rgba(28, 28, 27, 0.95);
 	background-color: black; /* or your dark theme color */
 }
 
