@@ -169,7 +169,7 @@
       function updateOffsets() {
         if (firstColCells.length === 0) return;
 
-        const firstColWidth = firstColCells[0].offsetWidth + 1; // +1 for border spacing
+        const firstColWidth = firstColCells[0].offsetWidth - 2; // -2 for border spacing
 
         secondColCells.forEach(cell => {
           cell.style.left = firstColWidth + "px";
