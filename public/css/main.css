@@ -170,7 +170,7 @@ table thead th a {
 /* Mobile Only Styles */
 @media screen and (max-width: 600px) {
   table {
-    font-size: 11px; /* Adjust this number to your preference */
+    font-size: 7px; /* Adjust this number to your preference */
   }
 
   /* Optional: Reduce padding to save even more horizontal space */
