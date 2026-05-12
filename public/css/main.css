@@ -93,7 +93,7 @@ table td:nth-child(1),
 table th:nth-child(1) {
 	position: sticky;
     left: -1px; /* slight overlap to hide border */
-	right: 1px; /* slight overlap to hide border */
+	right: 10px; /* slight overlap to hide border */
   /* Creates a 1px solid 'shield' on the right side of the column */
   	box-shadow: -5px 0 0 -5px #1a1a1a; 
   	z-index: 3;
@@ -105,10 +105,10 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-	left: -10px; /* slight overlap to hide border */
 	box-shadow: -10px 0 0 -10px #1a1a1a; 
     z-index: 2;
     background: black;
+	background-color: black; /* or your dark theme color */
 }
 
 /* Make frozen column headers ALSO sticky at the top */
