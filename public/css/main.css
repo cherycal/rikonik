@@ -44,7 +44,7 @@ body {
     overflow: visible;
     position: relative;
     z-index: 30;
-    border-bottom: 1px solid #111; /* closes vertical seam */
+    border-bottom: 4px solid #111; /* closes vertical seam */
 }
 
 /* Scrollable table wrapper (2nd child of sticky-stack) */
@@ -94,7 +94,7 @@ table td:nth-child(1),
 table th:nth-child(1) {
     position: sticky;
     left: 0;
-    z-index: 4; /* sits above column 2 */
+    z-index: 6; /* sits above column 2 */
     background-color: black;
 }
 
