@@ -94,7 +94,7 @@ table th:nth-child(1) {
 	position: sticky;
     left: -1px; /* slight overlap to hide border */
   /* Creates a 1px solid 'shield' on the right side of the column */
-  	box-shadow: -1px 0 0 0 #1a1a1a; 
+  	box-shadow: -5px 0 0 -5px #1a1a1a; 
   	z-index: 3;
     background: black;
 	background-color: black; /* or your dark theme color */
@@ -105,7 +105,7 @@ table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
 	left: -1px; /* slight overlap to hide border */
-	box-shadow: -1px 0 0 0 #1a1a1a; 
+	box-shadow: -5px 0 0 -5px #1a1a1a; 
     z-index: 2;
     background: black;
 }
