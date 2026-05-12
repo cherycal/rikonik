@@ -17,13 +17,14 @@ body {
 .navbar {
     background-color: rgba(0, 0, 0, 0.95) !important;
 }
+
 /* --------------------------------------------------
    STICKY STACK WRAPPER
    (banner + sql-message + table)
 -------------------------------------------------- */
 
 .sticky-stack {
-    margin-top: calc(var(--bs-navbar-height) + 10px);
+	margin-top: var(--bs-navbar-height);
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 4px;
     overflow: hidden;
@@ -31,12 +32,8 @@ body {
     flex-direction: column;
 }
 
-/* --------------------------------------------------
-   SQL MESSAGE
--------------------------------------------------- */
-
 .sql-message {
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(0, 0, 0, 0.9);
     padding: 10px 15px;
     margin: 0;
     min-height: 40px;
@@ -44,40 +41,27 @@ body {
     overflow: visible;
     position: relative;
     z-index: 30;
-    border-bottom: 1px solid #111; /* closes vertical seam */
+	border-bottom: 1px solid #111; /* closes the seam */
 }
 
-/* The actual scroll container */
-.sticky-stack .scrollbar {
-    background-color: black !important;
-
+.sticky-stack > div:nth-child(2) {
+  background-color: rgba(0, 0, 0, 0.95);
+  border-top: 1px solid #111; /* meets the sql-message border */
 }
+
 
 /* --------------------------------------------------
    TABLE BASE STYLES
 -------------------------------------------------- */
 
-.table-container {
-  overflow-y: auto;
-  /* Adjust the percentage to where your header ends */
-  clip-path: inset(0% 0% 0% 0%); 
-}
-
 table {
-	position: relative;
-    z-index: 0;
     width: 100%;
-	height: auto;
-    border-collapse: separate; /* prevents micro-gaps */
-    border-spacing: 0;         /* eliminates hairline seams */
-    background-color: black;
+    border-collapse: collapse;
+    background-color: transparent;
 }
 
 table th,
 table td {
-	background-color: black !important;
-    position: relative;
-    z-index: 1;
     border-color: rgb(54, 59, 50);
     font-size: small;
     white-space: nowrap;
@@ -96,48 +80,46 @@ table thead th {
     color: grey;
 }
 
-thead th {
-  position: sticky;
-  top: 0;
-  border-bottom: 2px solid #333; /* Manually add the bottom border back */
-}
-
-th {
-  background-clip: padding-box;
-}
-
 /* --------------------------------------------------
    FROZEN FIRST TWO COLUMNS
 -------------------------------------------------- */
 
-/* Column 1 */
+/* Freeze column 1 */
 table td:nth-child(1),
 table th:nth-child(1) {
     position: sticky;
     left: 0;
-    z-index: 10; /* sits above column 2 */
-    background-color: black;
+    z-index: 4;
+    background: black;
+	background-color: black; /* or your dark theme color */
 }
 
-/* Column 2 (JS sets left offset) */
+/* Freeze column 2 — JS sets left offset dynamically */
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-    z-index: 9;
-    background-color: black;
-    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8); /* closes horizontal seam */
+    z-index: 5;
+    background: black;
 }
 
-/* Frozen column headers also sticky vertically */
+/* Make frozen column headers ALSO sticky at the top */
 table th:nth-child(1),
 table th:nth-child(2) {
     top: 0;
-    z-index: 10;
+    z-index: 10; /* above body cells */
     background: black;
+}
+
+/* Optional: subtle divider between frozen and scrollable columns */
+table td:nth-child(2),
+table th:nth-child(2) {
+    box-shadow: 2px 0 0 rgba(0, 0, 0, 0.8);
+	background-color: black; /* or your dark theme color */
 }
 
 /* --------------------------------------------------
    SCROLLBAR STYLING
+   (applies to div.scrollbar ...)
 -------------------------------------------------- */
 
 .scrollbar {
@@ -158,13 +140,14 @@ table th:nth-child(2) {
 .scrollbar::-webkit-scrollbar-thumb {
     background: #444;
     border-radius: 6px;
-    border: 2px solid #111;
+    border: 2px solid #111; /* contrast against track */
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #666;
 }
 
+/* Bottom-right corner where vertical & horizontal scrollbars meet */
 .scrollbar::-webkit-scrollbar-corner {
     background: #111;
 }
@@ -173,10 +156,12 @@ table th:nth-child(2) {
    SMALL TWEAKS
 -------------------------------------------------- */
 
+/* Make table text color consistent with your theme */
 table tbody td {
     color: rgb(161, 159, 159);
 }
 
+/* Ensure links in headers stay visible */
 table thead th a {
     color: grey;
     text-decoration: none;
