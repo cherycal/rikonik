@@ -58,8 +58,8 @@ body {
 table {
     width: 100%;
     border-collapse: separate;
-    background-color: transparent;
-	border-spacing: 5px;
+    background-color: opaque;
+	border-spacing: 0px;
 }
 
 table th,
@@ -94,7 +94,6 @@ table th:nth-child(1) {
 	position: sticky;
     left: -1px; /* slight overlap to hide border */
   /* Creates a 1px solid 'shield' on the right side of the column */
-  	box-shadow: -5px 0 0 -5px #1a1a1a; 
   	z-index: 3;
     background: black;
 	background-color: black; /* or your dark theme color */
@@ -104,8 +103,7 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-	left: calc(var(--col1-width) - 5px);
-	box-shadow: -10px 0 0 -10px #1a1a1a; 
+	left: calc(var(--col1-width) - 1px);
     z-index: 2;
     background: black;
 }
