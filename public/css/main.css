@@ -57,6 +57,12 @@ body {
    TABLE BASE STYLES
 -------------------------------------------------- */
 
+.table-container {
+  overflow-y: auto;
+  /* Adjust the percentage to where your header ends */
+  clip-path: inset(0% 0% 0% 0%); 
+}
+
 table {
 	position: relative;
     z-index: 0;
