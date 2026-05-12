@@ -167,13 +167,10 @@ table thead th a {
 }
 
 /* Mobile Only Styles */
+/* This targets mobile and forces it to 10px */
 @media screen and (max-width: 600px) {
-  table {
-    font-size: 10px !important;
-  }
-
-  /* Optional: Reduce padding to save even more horizontal space */
-  th, td {
-    padding: 4px 2px; 
-  }
+    table th,
+    table td {
+        font-size: 8px !important;
+    }
 }
