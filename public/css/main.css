@@ -103,7 +103,7 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-	left: calc(var(--col1-width) - 1px);
+	left: calc(var(--firstColWidth) - 1px);
     z-index: 2;
     background: black;
 	background-color: black;
