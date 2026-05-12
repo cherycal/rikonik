@@ -63,7 +63,7 @@ table {
 }
 
 tbody {
-  transform: translateY(60px);
+  transform: translateY(120px);
 }
 
 table th,
@@ -173,4 +173,6 @@ table tbody td {
 table thead th a {
     color: grey;
     text-decoration: none;
+	background-color: black; /* or your dark theme color */
+	z-index: 20; /* above scrollable cells */
 }
