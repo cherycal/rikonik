@@ -62,10 +62,6 @@ table {
 	border-spacing: 0 5px;
 }
 
-tbody {
-  transform: translateY(10px);
-}
-
 table th,
 table td {
     border-color: rgb(54, 59, 50);
