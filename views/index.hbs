@@ -132,7 +132,8 @@
 
     <table class="table table-bordered sortable" style="border: rgb(54, 59, 50); min-width: 600px;">
 
-      <thead style="position: sticky; top: auto; background: black;">
+      <thead  style="position: sticky; top: 10px; z-index: 25; background-color: black;">
+        {{!-- DYNAMICALLY GENERATED COLUMN HEADERS WITH SORT LINKS --}}
         {{#each rows.[0]}}
         <th style="height: 60px; background: black; color: grey;" class="header">
           <a style="color: grey;"
