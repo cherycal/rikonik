@@ -15,7 +15,7 @@ body {
 
 /* Optional: keep Bootstrap navbar visually clean over background */
 .navbar {
-    background-color: rgba(0, 0, 0, 0.95) !important;
+    background-color: rgba(22, 22, 19, 0.95) !important;
 }
 
 /* --------------------------------------------------
@@ -25,7 +25,7 @@ body {
 
 .sticky-stack {
 	margin-top: var(--bs-navbar-height) -10px; /* space below navbar */
-    background-color: rgba(0, 0, 0, 0.95);
+    background-color: rgba(22, 22, 19, 0.95);
     border-radius: 4px;
     overflow: hidden;
     display: flex;
@@ -33,7 +33,7 @@ body {
 }
 
 .sql-message {
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 1);
     padding: 10px 15px;
     margin: 0;
 
@@ -46,7 +46,7 @@ body {
 }
 
 .sticky-stack > div:nth-child(2) {
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(22, 22, 19, 0.95);
   border-top: 1px solid #111; /* meets the sql-message border */
 }
 
@@ -79,12 +79,12 @@ table thead {
     position: sticky;
     top: 10;
     z-index: 25;
-    background: black;
+    background: rgba(22, 22, 19, 0.95);
 }
 
 table thead th {
 	min-height: 60px;
-    background: black;
+    background: rgba(22, 22, 19, 0.95);
     color: grey;
 }
 
