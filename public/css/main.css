@@ -97,9 +97,10 @@ table thead th {
 }
 
 thead th {
-    background-color: black !important;
+  position: sticky;
+  top: 0;
+  border-bottom: 2px solid #333; /* Manually add the bottom border back */
 }
-
 
 /* --------------------------------------------------
    FROZEN FIRST TWO COLUMNS
