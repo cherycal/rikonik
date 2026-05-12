@@ -93,7 +93,6 @@ table td:nth-child(1),
 table th:nth-child(1) {
 	position: sticky;
     left: -1px; /* slight overlap to hide border */
-	left: -1px; /* slight overlap to hide border */
   /* Creates a 1px solid 'shield' on the right side of the column */
   	box-shadow: -5px 0 0 -5px #1a1a1a; 
   	z-index: 3;
@@ -105,7 +104,7 @@ table th:nth-child(1) {
 table td:nth-child(2),
 table th:nth-child(2) {
     position: sticky;
-	left: -10px; /* slight overlap to hide border */
+	left: calc(var(--col1-width) - 2px);
 	box-shadow: -10px 0 0 -10px #1a1a1a; 
     z-index: 2;
     background: black;
