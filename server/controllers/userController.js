@@ -54,7 +54,7 @@ exports.default = async (req, res) => {
         const schema = resolveSchema(req);
         const dbname = schema;
 
-        const table = "mlbTeams";   // or whatever your default table is
+        const table = "public.mlbTeams";   // or whatever your default table is
         const cols = "*";
 
         // WHERE clause
@@ -115,7 +115,7 @@ exports.dbselect = async (req, res) => {
 
         console.log("dbselect Params:", JSON.stringify(req.params));
 
-        const table = "mlbteams";
+        const table = "public.mlbteams";
         const cols = "*";
 
         // WHERE clause
@@ -220,7 +220,7 @@ exports.queryAPI = async (req, res) => {
         if (!cols.trim()) cols = "*";
 
         // Table
-        let table = req.body.table || req.query.table || "mlbteams";
+        let table = req.body.table || req.query.table || "public.mlbteams";
         table = table.replace(/'/g, "");
 
         // WHERE clause
@@ -297,7 +297,7 @@ exports.queryTable = async (req, res) => {
         const dbname = schema;
 
         // --- Table name ---
-        let table = req.params.table || req.body.table_name || "mlbteams";
+        let table = req.params.table || req.body.table_name || "public.mlbteams";
         table = table.replace(/'/g, "");
 
         // --- WHERE clause ---
@@ -389,7 +389,7 @@ exports.selectTable = async (req, res) => {
 
         // --- Extract table, orderBy, asc from params ---
         // Old code used Object.values(req.params)[0..2]
-        const table = (req.params.table || "").replace(/'/g, "") || "mlbteams";
+        const table = (req.params.table || "").replace(/'/g, "") || "public.mlbteams";
         let orderBy = req.params.orderBy || "";
         let asc = req.params.ad || "";
 
