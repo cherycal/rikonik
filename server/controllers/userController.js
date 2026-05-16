@@ -54,7 +54,7 @@ exports.default = async (req, res) => {
         const schema = resolveSchema(req);
         const dbname = schema;
 
-        const table = "mlbTeams";   // or whatever your default table is
+        const table = "public.mlbTeams";   // or whatever your default table is
         const cols = "*";
 
         // WHERE clause
