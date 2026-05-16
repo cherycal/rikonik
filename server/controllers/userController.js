@@ -54,7 +54,7 @@ exports.default = async (req, res) => {
         const schema = resolveSchema(req);
         const dbname = schema;
 
-        const table = "MLBPlayers";   // or whatever your default table is
+        const table = "mlbTeams";   // or whatever your default table is
         const cols = "*";
 
         // WHERE clause
@@ -115,7 +115,7 @@ exports.dbselect = async (req, res) => {
 
         console.log("dbselect Params:", JSON.stringify(req.params));
 
-        const table = "MLBPlayers";
+        const table = "mlbteams";
         const cols = "*";
 
         // WHERE clause
@@ -180,8 +180,8 @@ exports.multi = async (req, res) => {
         // First query: list tables in this schema
         const tablePromise = getTables(schema);
 
-        // Second query: simple SELECT * FROM MLBPlayers
-        const sql = `SELECT * FROM ${schema}.MLBPlayers`;
+        // Second query: simple SELECT * FROM mlbteams
+        const sql = `SELECT * FROM ${schema}.mlbteams`;
         const queryPromise = basicQuery(sql);
 
         // Run both in parallel
@@ -220,7 +220,7 @@ exports.queryAPI = async (req, res) => {
         if (!cols.trim()) cols = "*";
 
         // Table
-        let table = req.body.table || req.query.table || "MLBPlayers";
+        let table = req.body.table || req.query.table || "mlbteams";
         table = table.replace(/'/g, "");
 
         // WHERE clause
@@ -297,7 +297,7 @@ exports.queryTable = async (req, res) => {
         const dbname = schema;
 
         // --- Table name ---
-        let table = req.params.table || req.body.table_name || "mlbplayers";
+        let table = req.params.table || req.body.table_name || "mlbteams";
         table = table.replace(/'/g, "");
 
         // --- WHERE clause ---
@@ -389,7 +389,7 @@ exports.selectTable = async (req, res) => {
 
         // --- Extract table, orderBy, asc from params ---
         // Old code used Object.values(req.params)[0..2]
-        const table = (req.params.table || "").replace(/'/g, "") || "MLBPlayers";
+        const table = (req.params.table || "").replace(/'/g, "") || "mlbteams";
         let orderBy = req.params.orderBy || "";
         let asc = req.params.ad || "";
 
@@ -491,7 +491,7 @@ exports.tableOnly = async (req, res) => {
 
 
         const schema = req.params.db || "public";
-        const table = "MLBPlayers";
+        const table = "mlbteams";
         const cols = "*";
 
         const sql = `SELECT ${cols} FROM ${schema}.${table}`;
