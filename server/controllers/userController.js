@@ -254,7 +254,7 @@ exports.queryAPI = async (req, res) => {
             FROM ${schema}.${table}
             ${queryWhere}
             ${orderTerm}
-            LIMIT 200
+            LIMIT 500
         `;
 
         console.log("queryAPI SQL:", sql);
@@ -340,7 +340,7 @@ exports.queryTable = async (req, res) => {
             FROM ${schema}.${table}
             ${queryWhere}
             ${orderTerm}
-            LIMIT 200
+            LIMIT 500
         `;
 
         console.log("queryTable SQL:", sql);
