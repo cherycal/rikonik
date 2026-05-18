@@ -10,7 +10,8 @@ body {
     background-attachment: fixed;
     background-position: center;
     color: #ddd;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; */
+    font-family: "Inter", system-ui, sans-serif;
 }
 
 /* Optional: keep Bootstrap navbar visually clean over background */
@@ -172,7 +173,7 @@ table thead th a {
 @media screen and (max-width: 600px) {
     table th,
     table td {
-        font-size: 10px !important;
+        font-size: 11px !important;
         color: #f9f9fa !important; 
         padding: .2rem .2rem !important;
     }
